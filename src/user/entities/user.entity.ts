@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
+import {Media} from './../../media/entities/media.entity';
 
 @Entity('user')
 export class User {
@@ -44,6 +45,9 @@ export class User {
   refreshToken: string;
 
   /* Relations */
+
+  @OneToMany(() => Media, media => media.user)
+  mediaList: Media[];
 
   /* Date Columns */
 

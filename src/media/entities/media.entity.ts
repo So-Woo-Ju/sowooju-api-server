@@ -3,12 +3,13 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
 import {VideoType, VideoLanguage} from '../../constants';
+import {User} from './../../user/entities/user.entity';
 
 @Entity('media')
 export class Media {
@@ -37,6 +38,9 @@ export class Media {
   captionUrl: string;
 
   /* Relations */
+
+  @ManyToOne(() => User, user => user.mediaList)
+  user: User;
 
   /* Date Columns */
 
