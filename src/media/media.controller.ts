@@ -3,7 +3,7 @@ import {MediaService} from './media.service';
 import {CreateMediaDto} from './dto/create-media.dto';
 import {UpdateMediaDto} from './dto/update-media.dto';
 
-@Controller('media')
+@Controller('v1/api/media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 

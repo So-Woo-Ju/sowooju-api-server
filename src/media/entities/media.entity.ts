@@ -11,7 +11,7 @@ import {ApiProperty} from '@nestjs/swagger';
 import {VideoType, VideoLanguage} from '../../constants';
 import {User} from './../../user/entities/user.entity';
 
-@Entity('media')
+@Entity()
 export class Media {
   @PrimaryGeneratedColumn('increment')
   @ApiProperty({description: '영상의 id'})

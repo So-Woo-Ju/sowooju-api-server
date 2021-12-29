@@ -1,10 +1,10 @@
 import {TypeOrmModuleOptions} from '@nestjs/typeorm';
 import * as path from 'path';
-import * as dotenv from 'dotenv';
+import {config} from 'dotenv';
 
-dotenv.config();
+config();
 
-const config: TypeOrmModuleOptions = {
+const ormconfig: TypeOrmModuleOptions = {
   type: 'mysql',
   extra: {
     decimalNumbers: true,
@@ -25,4 +25,4 @@ const config: TypeOrmModuleOptions = {
   synchronize: true,
 };
 
-export = config;
+export = ormconfig;

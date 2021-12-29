@@ -10,7 +10,7 @@ import {
 import {ApiProperty} from '@nestjs/swagger';
 import {Media} from './../../media/entities/media.entity';
 
-@Entity('user')
+@Entity()
 export class User {
   @PrimaryGeneratedColumn('increment')
   @ApiProperty({description: '사용자의 id'})
