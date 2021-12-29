@@ -17,15 +17,15 @@ export class Media {
   @ApiProperty({description: '영상의 id'})
   id: number;
 
-  @Column({nullable: true})
+  @Column()
   @ApiProperty({description: '영상의 제목'})
   videoName: string;
 
-  @Column({nullable: true})
+  @Column()
   @ApiProperty({description: '영상의 타입'})
   videoType: VideoType;
 
-  @Column({nullable: true})
+  @Column()
   @ApiProperty({description: '자막의 언어'})
   videoLanguage: VideoLanguage;
 
