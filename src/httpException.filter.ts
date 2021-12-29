@@ -13,10 +13,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
     if (err.code) {
       return response.status(status).json({
         success: false,
-        code: err.code,
+        statusCode: err.code,
         data: err.message,
       });
     }
-    response.status(status).json({success: false, code: status, data: err.message});
+    response.status(status).json({success: false, statusCode: status, data: err.message});
   }
 }
