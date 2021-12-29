@@ -1,6 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { MediaController } from './media.controller';
-import { MediaService } from './media.service';
+import {Test, TestingModule} from '@nestjs/testing';
+import {MediaController} from './media.controller';
+import {MediaService} from './media.service';
 
 describe('MediaController', () => {
   let controller: MediaController;
