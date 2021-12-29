@@ -3,9 +3,16 @@ import {TypeOrmModule} from '@nestjs/typeorm';
 import {AppController} from './app.controller';
 import {AppService} from './app.service';
 import * as ormconfig from '../ormconfig';
+import {ConfigModule} from '@nestjs/config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(ormconfig)],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
+    TypeOrmModule.forRoot(ormconfig),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
