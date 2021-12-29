@@ -5,6 +5,7 @@ import {AppService} from './app.service';
 import * as ormconfig from '../ormconfig';
 import {ConfigModule} from '@nestjs/config';
 import {UserModule} from './user/user.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import {UserModule} from './user/user.module';
     }),
     TypeOrmModule.forRoot(ormconfig),
     UserModule,
+    MediaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
