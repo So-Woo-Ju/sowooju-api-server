@@ -39,7 +39,7 @@ export class Media {
 
   /* Relations */
 
-  @ManyToOne(() => User, user => user.mediaList)
+  @ManyToOne(() => User, user => user.mediaList, {onDelete: 'CASCADE'})
   user: User;
 
   /* Date Columns */
