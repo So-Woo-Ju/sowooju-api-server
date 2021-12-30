@@ -1,7 +1,7 @@
 import {NestFactory} from '@nestjs/core';
 import {AppModule} from './app.module';
-import {HttpExceptionFilter} from './httpException.filter';
-import {TransformInterceptor} from './transform.interceptor';
+import {HttpExceptionFilter} from './common/exceptions/httpException.filter';
+import {TransformInterceptor} from './common/interceptors/transform.interceptor';
 import {API_PREFIX, DOC_PATH} from './constants';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
 
