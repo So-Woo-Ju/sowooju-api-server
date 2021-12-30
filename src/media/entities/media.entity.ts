@@ -8,8 +8,17 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
-import {VideoType, VideoLanguage} from '../../constants';
 import {User} from './../../user/entities/user.entity';
+
+export enum VideoType {
+  LOCAL = 'LOCAL', // 로컬에서 업로드
+  YOUTUBE = 'YOUTUBE', // 유튜브에서 업로드
+}
+
+export enum VideoLanguage {
+  KOR = 'KOR', // 한국어 자막
+  ENG = 'ENG', // 영어 자막
+}
 
 @Entity()
 export class Media {
