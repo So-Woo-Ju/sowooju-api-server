@@ -1,5 +1,6 @@
 import {ApiProperty, ApiPropertyOptional} from '@nestjs/swagger';
 import {IsEmail} from 'class-validator';
+import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
 export class VerifyCodeDto {
   @IsEmail()
@@ -20,4 +21,12 @@ export class VerifyCodeResponseDto {
 
   @ApiPropertyOptional()
   isVerify: boolean;
+}
+
+export class VerifyCodeResponseBodyDto extends BaseResponseDto {
+  @ApiProperty({example: 201})
+  statusCode: boolean;
+
+  @ApiProperty()
+  data: VerifyCodeResponseDto;
 }
