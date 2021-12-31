@@ -12,7 +12,7 @@ import {Err} from './../error';
 export class AuthService {
   constructor(
     @InjectRepository(VerifyCode)
-    private verifyCodeRepository: Repository<VerifyCode>,
+    private readonly verifyCodeRepository: Repository<VerifyCode>,
     private readonly mailSender: MailSender,
     private readonly userService: UserService,
   ) {}
