@@ -4,7 +4,7 @@ import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
 export class VerifyCodeDto {
   @IsEmail()
-  @ApiProperty({example: 'sowoojuenterprise@gmail.com@gmail.com'})
+  @ApiProperty({example: 'sowoojuenterprise@gmail.com'})
   email: string;
 
   @ApiProperty({example: '1a2b3c'})
@@ -13,7 +13,7 @@ export class VerifyCodeDto {
 
 export class VerifyCodeResponseDto {
   @IsEmail()
-  @ApiProperty({example: 'sowoojuenterprise@gmail.com@gmail.com'})
+  @ApiProperty({example: 'sowoojuenterprise@gmail.com'})
   email: string;
 
   @ApiPropertyOptional()
