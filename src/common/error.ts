@@ -19,7 +19,7 @@ export const Err = {
       message: '유효하지 않은 토큰입니다.',
     },
     JWT_EXPIRED: {
-      code: 403,
+      code: 401,
       message: '토큰이 만료되었습니다.',
     },
     REFRESH_TOKEN_NOT_REISSUED: {
@@ -42,10 +42,10 @@ export const Err = {
   VERIFY_CODE: {
     INVALID_CODE: {
       code: 401,
-      message: '유효하지 않은 요청입니다.',
+      message: '유효하지 않은 코드입니다.',
     },
     CODE_EXPIRED: {
-      code: 403,
+      code: 401,
       message: '유효기간이 만료된 코드입니다.',
     },
   },

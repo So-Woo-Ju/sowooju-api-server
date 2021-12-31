@@ -58,7 +58,9 @@ export class AuthService {
       throw new BadRequestException(Err.VERIFY_CODE.INVALID_CODE);
     }
 
-    if (differenceInMinutes(new Date(), verifyCode.createdAt) > 10) {
+    const expirationTime = differenceInMinutes(new Date(), verifyCode.createdAt);
+
+    if (expirationTime > 10) {
       await this.verifyCodeRepository.remove(verifyCode);
       throw new BadRequestException(Err.VERIFY_CODE.CODE_EXPIRED);
     }
