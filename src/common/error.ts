@@ -41,11 +41,11 @@ export const Err = {
   },
   VERIFY_CODE: {
     INVALID_CODE: {
-      code: 401,
-      message: '유효하지 않은 코드입니다.',
+      code: 500,
+      message: '유효하지 않은 정보입니다.',
     },
     CODE_EXPIRED: {
-      code: 401,
+      code: 500,
       message: '유효기간이 만료된 코드입니다.',
     },
   },
