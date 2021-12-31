@@ -12,13 +12,13 @@ export class AuthController {
 
   @Post('send-email')
   @docs.sendEmail('이메일 인증코드 전송')
-  async sendEmail(@Body() dto: SendEmailDto) {
-    return await this.authService.sendEmail(dto);
+  async sendEmail(@Body() sendEmailDto: SendEmailDto) {
+    return await this.authService.sendEmail(sendEmailDto);
   }
 
   @Post('verify-code')
   @docs.verifyCode('인증코드 확인')
-  async verifyCode(@Body() dto: VerifyCodeDto) {
-    return await this.authService.verifyCode(dto);
+  async verifyCode(@Body() verifyCodeDto: VerifyCodeDto) {
+    return await this.authService.verifyCode(verifyCodeDto);
   }
 }

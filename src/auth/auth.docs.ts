@@ -23,8 +23,6 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
       ApiCreatedResponse({
         type: sendEamilResponseBodyDto,
-        description:
-          '성공적으로 전송했다면 isSend: true, 이미 등록된 이메일이라면 isUserExist: true를 반환',
       }),
     );
   },
@@ -36,8 +34,6 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
       ApiCreatedResponse({
         type: VerifyCodeResponseBodyDto,
-        description:
-          '코드가 일치한다면 isVerify: true, 불일치한다면 isVerify: false, 만료된 코드라면 isCodeExpired: true를 반환',
       }),
     );
   },

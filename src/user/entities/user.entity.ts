@@ -9,13 +9,10 @@ import {
 } from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
 import {Media} from './../../media/entities/media.entity';
+import {BaseEntity} from './../../common/entity/base-entity.entity';
 
 @Entity()
-export class User {
-  @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '사용자의 id'})
-  id: number;
-
+export class User extends BaseEntity {
   @Column({
     unique: true,
     nullable: true,
@@ -50,12 +47,6 @@ export class User {
   mediaList: Media[];
 
   /* Date Columns */
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @DeleteDateColumn()
   deletedAt: Date | null;

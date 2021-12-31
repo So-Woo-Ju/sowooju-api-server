@@ -12,20 +12,13 @@ export class VerifyCodeDto {
 }
 
 export class VerifyCodeResponseDto {
-  @IsEmail()
-  @ApiProperty({example: 'sowoojuenterprise@gmail.com'})
-  email: string;
-
-  @ApiPropertyOptional()
-  isCodeExpired: boolean;
-
-  @ApiPropertyOptional()
+  @ApiProperty()
   isVerify: boolean;
 }
 
 export class VerifyCodeResponseBodyDto extends BaseResponseDto {
   @ApiProperty({example: 201})
-  statusCode: boolean;
+  statusCode: number;
 
   @ApiProperty()
   data: VerifyCodeResponseDto;

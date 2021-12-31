@@ -6,12 +6,10 @@ import {VerifyCode} from './entities/verify-code.entity';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {ConfigModule} from '@nestjs/config';
 import {MailSender} from './mail-sender';
-import {UserService} from './../user/user.service';
-import {User} from './../user/entities/user.entity';
 
 @Module({
-  imports: [UserModule, ConfigModule, TypeOrmModule.forFeature([VerifyCode, User])],
+  imports: [UserModule, ConfigModule, TypeOrmModule.forFeature([VerifyCode])],
   controllers: [AuthController],
-  providers: [AuthService, UserService, MailSender],
+  providers: [AuthService, MailSender],
 })
 export class AuthModule {}

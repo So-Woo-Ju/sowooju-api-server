@@ -1,7 +1,8 @@
 import {Column, CreateDateColumn, Entity, PrimaryGeneratedColumn} from 'typeorm';
+import {BaseEntity} from './../../common/entity/base-entity.entity';
 
 @Entity()
-export class VerifyCode {
+export class VerifyCode extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -12,7 +13,4 @@ export class VerifyCode {
   email: string;
 
   /* Date Columns */
-
-  @CreateDateColumn()
-  createdAt: Date;
 }

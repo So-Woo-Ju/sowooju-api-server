@@ -4,11 +4,13 @@ import {HttpExceptionFilter} from './common/exceptions/httpException.filter';
 import {TransformInterceptor} from './common/interceptors/transform.interceptor';
 import {API_PREFIX, DOC_PATH} from './constants';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger';
+import {ValidationPipe} from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix(API_PREFIX);
   app.enableCors();
+  app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new TransformInterceptor());
 
