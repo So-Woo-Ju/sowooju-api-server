@@ -19,7 +19,7 @@ export const Err = {
       message: '유효하지 않은 토큰입니다.',
     },
     JWT_EXPIRED: {
-      code: 410,
+      code: 401,
       message: '토큰이 만료되었습니다.',
     },
     REFRESH_TOKEN_NOT_REISSUED: {
@@ -39,10 +39,24 @@ export const Err = {
       message: 'Token 전송이 안 되었습니다.',
     },
   },
+  VERIFY_CODE: {
+    INVALID_CODE: {
+      code: 500,
+      message: '유효하지 않은 정보입니다.',
+    },
+    CODE_EXPIRED: {
+      code: 500,
+      message: '유효기간이 만료된 코드입니다.',
+    },
+  },
   SERVER: {
     UNEXPECTED_ERROR: {
       code: 500,
       message: '예기치 못한 못한 서버에러가 발생했습니다.',
+    },
+    NOT_SEND_MAIL_ERROR: {
+      code: 500,
+      message: '메일 전송 중 에러가 발생하였습니다 ',
     },
   },
 };

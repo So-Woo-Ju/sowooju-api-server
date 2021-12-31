@@ -1,8 +1,5 @@
 import {TypeOrmModuleOptions} from '@nestjs/typeorm';
 import * as path from 'path';
-import {config} from 'dotenv';
-
-config();
 
 const ormconfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -23,6 +20,7 @@ const ormconfig: TypeOrmModuleOptions = {
   timezone: 'Z',
   charset: 'utf8mb4',
   synchronize: true,
+  logging: true,
 };
 
 export = ormconfig;

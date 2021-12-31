@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
 import {User} from './../../user/entities/user.entity';
+import {BaseEntity} from './../../common/entity/base-entity.entity';
 
 export enum VideoType {
   LOCAL = 'LOCAL', // 로컬에서 업로드
@@ -21,11 +22,7 @@ export enum VideoLanguage {
 }
 
 @Entity()
-export class Media {
-  @PrimaryGeneratedColumn('increment')
-  @ApiProperty({description: '영상의 id'})
-  id: number;
-
+export class Media extends BaseEntity {
   @Column()
   @ApiProperty({description: '영상의 제목'})
   videoName: string;
@@ -52,13 +49,6 @@ export class Media {
   user: User;
 
   /* Date Columns */
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
-
   @DeleteDateColumn()
   deletedAt: Date | null;
 }
