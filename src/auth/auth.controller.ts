@@ -11,7 +11,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('send-email')
-  @docs.sendEmail('회원가입 인증코드 전송')
+  @docs.sendEmail('이메일 인증코드 전송')
   async sendEmail(@Body() dto: SendEmailDto) {
     return await this.authService.sendEmail(dto);
   }
