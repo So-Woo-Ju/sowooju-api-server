@@ -12,8 +12,6 @@ import mailConfig from './common/config/mail.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
       load: [databaseConfig, mailConfig],
     }),
     TypeOrmModule.forRootAsync({
