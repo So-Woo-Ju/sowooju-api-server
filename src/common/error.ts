@@ -44,7 +44,7 @@ export const Err = {
       code: 500,
       message: '예기치 못한 못한 서버에러가 발생했습니다.',
     },
-    SEND_MAIL_ERROR: {
+    NOT_SEND_MAIL_ERROR: {
       code: 500,
       message: '메일 전송 중 에러가 발생하였습니다 ',
     },

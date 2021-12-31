@@ -48,7 +48,7 @@ export class AuthService {
       });
     } catch (e) {
       this.verifyCodeRepository.remove(newVerifyCode);
-      throw new InternalServerErrorException(Err.SERVER.SEND_MAIL_ERROR);
+      throw new InternalServerErrorException(Err.SERVER.NOT_SEND_MAIL_ERROR);
     }
     return {isSend: true, isUserExist: user !== undefined};
   }
