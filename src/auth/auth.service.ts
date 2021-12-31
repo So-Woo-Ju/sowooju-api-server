@@ -6,7 +6,7 @@ import {MailSender} from './mail-sender';
 import {SendEmailDto, SendEmailResponseDto} from './dto/send-email.dto';
 import {UserService} from './../user/user.service';
 import {VerifyCodeDto, VerifyCodeResponseDto} from './dto/verify-code.dto';
-import {Err} from './../error';
+import {Err} from '../common/error';
 
 @Injectable()
 export class AuthService {
