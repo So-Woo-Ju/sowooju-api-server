@@ -43,6 +43,10 @@ export class Media extends BaseEntity {
   @ApiProperty({description: '자막의 URL'})
   captionUrl: string;
 
+  @Column({nullable: true})
+  @ApiProperty({description: '자막 텍스트의 URL'})
+  captionTextUrl: string;
+
   /* Relations */
 
   @ManyToOne(() => User, user => user.mediaList, {onDelete: 'CASCADE'})
