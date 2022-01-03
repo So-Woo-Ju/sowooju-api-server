@@ -1,8 +1,8 @@
 import { IsDate, IsEmail, IsInt, IsNumber, IsString } from 'class-validator';
 
 export class CreateUserDto {
-  @IsInt()
-  id: string;
+  @IsNumber()
+  id: number;
 
   @IsEmail()
   email: string;
@@ -20,8 +20,8 @@ export class CreateUserDto {
   refreshToken: string;
 
   @IsDate()
-  createdDate: Date;
+  createdAt: Date;
 
   @IsDate()
-  updateDate: Date;
+  updatedAt: Date;
 }
