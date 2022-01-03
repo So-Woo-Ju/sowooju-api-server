@@ -7,7 +7,7 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import {AuthController} from './auth.controller';
-import {sendEamilResponseBodyDto} from './dto/send-email.dto';
+import {sendEmailResponseBodyDto} from './dto/send-email.dto';
 import {VerifyCodeResponseBodyDto} from './dto/verify-code.dto';
 
 type SwaggerMethodDoc<T> = {
@@ -22,7 +22,7 @@ export const docs: SwaggerMethodDoc<AuthController> = {
         description: '등록된 이메일로 인증코드 여섯자리를 전송합니다.',
       }),
       ApiCreatedResponse({
-        type: sendEamilResponseBodyDto,
+        type: sendEmailResponseBodyDto,
       }),
     );
   },
