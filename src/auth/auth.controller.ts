@@ -4,8 +4,8 @@ import {AuthService} from './auth.service';
 import {SendEmailDto} from './dto/send-email.dto';
 import {VerifyCodeDto} from './dto/verify-code.dto';
 import {docs} from './auth.docs';
-import {LocalAuthGuard} from './local-auth.guard';
-import {JwtAuthGuard} from './jwt-auth.guard';
+import {LocalAuthGuard} from './guard/local-auth.guard';
+import {Users} from 'src/common/decorators/user.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -26,13 +26,8 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Request() req) {
-    return this.authService.login(req.user);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  @docs.login('사용자 로그인')
+  async login(@Users() user) {
+    return await this.authService.login(user);
   }
 }
