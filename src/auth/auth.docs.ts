@@ -6,6 +6,7 @@ import {
   ApiOperation,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import {Users} from 'src/common/decorators/user.decorator';
 import {AuthController} from './auth.controller';
 import {sendEmailResponseBodyDto} from './dto/send-email.dto';
 import {VerifyCodeResponseBodyDto} from './dto/verify-code.dto';
@@ -34,6 +35,17 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
       ApiCreatedResponse({
         type: VerifyCodeResponseBodyDto,
+      }),
+    );
+  },
+  login(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+        description: '사용자 로그인 시 정보가 일치하는지 확인합니다.',
+      }),
+      ApiCreatedResponse({
+        type: Users,
       }),
     );
   },
