@@ -9,6 +9,7 @@ import {VerifyCodeDto, VerifyCodeResponseDto} from './dto/verify-code.dto';
 import {Err} from '../common/error';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
 import {JwtService} from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -20,9 +21,11 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.userService.findOneByEmail(username);
-    if (user && user.password === pass) {
+  async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.userService.findOneByEmail(email);
+    if (!user) throw new BadRequestException(Err.USER.NOT_FOUND);
+    const password = await bcrypt.compare(pass, user.password);
+    if (password) {
       const {password, ...result} = user;
       return result;
     }

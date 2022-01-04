@@ -1,5 +1,4 @@
 import {
-  BeforeInsert,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -11,9 +10,6 @@ import {
 import {ApiProperty} from '@nestjs/swagger';
 import {Media} from './../../media/entities/media.entity';
 import {BaseEntity} from './../../common/entity/base-entity.entity';
-import * as bcrypt from 'bcrypt';
-import {BadRequestException} from '@nestjs/common';
-import {Err} from 'src/common/error';
 
 @Entity()
 export class User extends BaseEntity {
@@ -54,15 +50,4 @@ export class User extends BaseEntity {
 
   @DeleteDateColumn()
   deletedAt: Date | null;
-
-  @BeforeInsert()
-  async hashPassword(): Promise<void> {
-    try {
-      const salt = await bcrypt.genSalt();
-      this.password = await bcrypt.hash(this.password, salt);
-    } catch (e) {
-      console.log(e);
-      throw new BadRequestException(Err.SERVER.UNEXPECTED_ERROR);
-    }
-  }
 }
