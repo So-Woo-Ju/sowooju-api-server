@@ -8,9 +8,9 @@ import {ConfigModule} from '@nestjs/config';
 import {MailSender} from './mail-sender';
 import {PassportModule} from '@nestjs/passport';
 import {JwtModule} from '@nestjs/jwt';
-import {jwtConstants} from './constants';
-import {LocalStrategy} from './local.strategy';
-import {JwtStrategy} from './jwt.strategy';
+import {jwtConstants} from 'src/common/config/auth.config';
+import {LocalStrategy} from './strategy/local.strategy';
+import {JwtStrategy} from './strategy/jwt.strategy';
 
 @Module({
   imports: [
