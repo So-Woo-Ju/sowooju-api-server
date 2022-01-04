@@ -8,6 +8,7 @@ import {UserService} from './../user/user.service';
 import {VerifyCodeDto, VerifyCodeResponseDto} from './dto/verify-code.dto';
 import {Err} from '../common/error';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
+import {JwtService} from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +17,24 @@ export class AuthService {
     private readonly verifyCodeRepository: Repository<VerifyCode>,
     private readonly mailSender: MailSender,
     private readonly userService: UserService,
+    private readonly jwtService: JwtService,
   ) {}
+
+  async validateUser(username: string, pass: string): Promise<any> {
+    const user = await this.userService.findOneByEmail(username);
+    if (user && user.password === pass) {
+      const {password, ...result} = user;
+      return result;
+    }
+    return null;
+  }
+
+  async login(user: any) {
+    const payload = {username: user.username, sub: user.userId};
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
+  }
 
   async sendEmail({email}: SendEmailDto): Promise<SendEmailResponseDto> {
     const user = await this.userService.findOneByEmail(email);
