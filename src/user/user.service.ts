@@ -2,8 +2,9 @@ import {BadRequestException, Injectable} from '@nestjs/common';
 import {User} from './entities/user.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
-import {CreateUserDto} from './dto/create-user.dto';
+import {CreateUserDto} from '../auth/dto/create-user.dto';
 import {Err} from 'src/common/error';
+import {ReturnUserDto} from './dto/return-user.dto';
 
 @Injectable()
 export class UserService {
@@ -12,25 +13,8 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const {email, password} = createUserDto;
-
-    const existingEmail = await this.userRepository.findOne({
-      where: {
-        email: createUserDto.email,
-      },
-    });
-    if (existingEmail) {
-      throw new BadRequestException(Err.USER.EXISTING_USER);
-    }
-    const user = new User();
-    user.email = email;
-    user.password = password;
-
-    await this.userRepository.save(user);
-    user.password = undefined;
-    console.log(user);
-    return user;
+  async findUser(user: any): Promise<ReturnUserDto> {
+    return await this.userRepository.findOne(user.id);
   }
 
   async findOneByEmail(email: string): Promise<User> {
