@@ -10,12 +10,13 @@ import {PassportModule} from '@nestjs/passport';
 import {JwtModule} from '@nestjs/jwt';
 import {LocalStrategy} from './strategy/local.strategy';
 import {JwtStrategy} from './strategy/jwt.strategy';
+import {User} from './../user/entities/user.entity';
 
 @Module({
   imports: [
     UserModule,
     ConfigModule,
-    TypeOrmModule.forFeature([VerifyCode]),
+    TypeOrmModule.forFeature([VerifyCode, User]),
     PassportModule,
     JwtModule.registerAsync({
       inject: [ConfigService],

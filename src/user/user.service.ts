@@ -1,10 +1,7 @@
-import {BadRequestException, Injectable} from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 import {User} from './entities/user.entity';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
-import {CreateUserDto} from '../auth/dto/create-user.dto';
-import {Err} from 'src/common/error';
-import {ReturnUserDto} from './dto/return-user.dto';
 
 @Injectable()
 export class UserService {
@@ -13,11 +10,13 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async findUser(user: any): Promise<ReturnUserDto> {
-    return await this.userRepository.findOne(user.id);
+  async findUserById(id: number): Promise<User> {
+    const user = await this.userRepository.findOne({id});
+    delete user.password;
+    return user;
   }
 
-  async findOneByEmail(email: string): Promise<User> {
+  async findUserByEmail(email: string): Promise<User> {
     return await this.userRepository.findOne({email}, {select: ['password', 'email', 'id']});
   }
 }

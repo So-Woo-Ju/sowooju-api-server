@@ -10,59 +10,63 @@ import {Err} from '../common/error';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
 import {JwtService} from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import {CreateUserDto} from './dto/create-user.dto';
+import {SignUpDto} from './dto/signup.dto';
 import {User} from 'src/user/entities/user.entity';
+import {LoginResponseDto} from './dto/login.dto';
+import {JwtPayload, LocalUser} from 'src/common/types';
 
 @Injectable()
 export class AuthService {
-  userRepository: any;
   constructor(
     @InjectRepository(VerifyCode)
     private readonly verifyCodeRepository: Repository<VerifyCode>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
     private readonly mailSender: MailSender,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
 
   async validateUser(email: string, pass: string): Promise<any> {
-    const user = await this.userService.findOneByEmail(email);
-    if (!user) throw new BadRequestException(Err.USER.NOT_FOUND);
-    const password = await bcrypt.compare(pass, user.password);
+    const existingUser = await this.userService.findUserByEmail(email);
+    if (!existingUser) throw new BadRequestException(Err.USER.NOT_FOUND);
+
+    const password = await bcrypt.compare(pass, existingUser.password);
     if (password) {
-      const {password, ...result} = user;
+      const {password, ...result} = existingUser;
       return result;
     }
     return null;
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
-    const {email, password} = createUserDto;
+  async signup(signUpDto: SignUpDto): Promise<User> {
+    const {email, password} = signUpDto;
 
-    const existingEmail = await this.userRepository.findOne({
-      where: {
-        email: createUserDto.email,
-      },
-    });
-    if (existingEmail) {
+    const existingUser = await this.userService.findUserByEmail(email);
+    if (existingUser) {
       throw new BadRequestException(Err.USER.EXISTING_USER);
     }
+
     const user = new User();
     user.email = email;
     user.password = password;
 
+    await this.userRepository.save(user);
+    delete user.password;
+
     return user;
   }
 
-  async login(user: any) {
-    const payload = {email: user.email, sub: user.id};
+  async login({id}: LocalUser): Promise<LoginResponseDto> {
+    const payload: JwtPayload = {sub: id};
     return {
-      access_token: this.jwtService.sign(payload),
+      accessToken: this.jwtService.sign(payload),
     };
   }
 
   async sendEmail({email}: SendEmailDto): Promise<SendEmailResponseDto> {
-    const user = await this.userService.findOneByEmail(email);
-    if (user) {
+    const existingUser = await this.userService.findUserByEmail(email);
+    if (existingUser) {
       throw new BadRequestException(Err.USER.EXISTING_USER);
     }
 

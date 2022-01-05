@@ -1,20 +1,11 @@
 import {applyDecorators} from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiCreatedResponse,
-  ApiOperation,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
-import {ReturnUserDto} from 'src/user/dto/return-user.dto';
+import {ApiCreatedResponse, ApiOperation, ApiBody} from '@nestjs/swagger';
 import {AuthController} from './auth.controller';
-import {CreateUserDto} from './dto/create-user.dto';
+import {SignUpResponseBodyDto} from './dto/signup.dto';
 import {sendEmailResponseBodyDto} from './dto/send-email.dto';
 import {VerifyCodeResponseBodyDto} from './dto/verify-code.dto';
-
-type SwaggerMethodDoc<T> = {
-  [K in keyof T]: (description: string) => MethodDecorator;
-};
+import {SwaggerMethodDoc} from 'src/common/types';
+import {LoginResponseBodyDto, LoginDto} from './dto/login.dto';
 
 export const docs: SwaggerMethodDoc<AuthController> = {
   sendEmail(summary: string) {
@@ -39,14 +30,14 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
     );
   },
-  create(summary: string) {
+  signup(summary: string) {
     return applyDecorators(
       ApiOperation({
         summary,
-        description: '회원가입 시 사용자를 등록합니다.',
+        description: '회원가입을 진행합니다.',
       }),
       ApiCreatedResponse({
-        type: CreateUserDto,
+        type: SignUpResponseBodyDto,
       }),
     );
   },
@@ -54,10 +45,11 @@ export const docs: SwaggerMethodDoc<AuthController> = {
     return applyDecorators(
       ApiOperation({
         summary,
-        description: '사용자 로그인 시 정보가 일치하는지 확인합니다.',
+        description: '로그인을 진행합니다',
       }),
+      ApiBody({type: LoginDto}),
       ApiCreatedResponse({
-        type: ReturnUserDto,
+        type: LoginResponseBodyDto,
       }),
     );
   },
