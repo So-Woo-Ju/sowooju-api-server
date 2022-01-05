@@ -13,7 +13,7 @@ export class SendEmailResponseDto {
   isSend: boolean;
 }
 
-export class sendEamilResponseBodyDto extends BaseResponseDto {
+export class sendEmailResponseBodyDto extends BaseResponseDto {
   @ApiProperty({example: 201})
   statusCode: number;
 
