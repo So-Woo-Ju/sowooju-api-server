@@ -5,10 +5,9 @@ import {SendEmailDto} from './dto/send-email.dto';
 import {VerifyCodeDto} from './dto/verify-code.dto';
 import {docs} from './auth.docs';
 import {LocalAuthGuard} from './guard/local-auth.guard';
+import {SignUpDto} from './dto/signup.dto';
 import {AuthUser} from 'src/common/decorators/user.decorator';
-import {CreateUserDto} from './dto/create-user.dto';
-import {User} from 'src/user/entities/user.entity';
-import {ReturnUserDto} from 'src/user/dto/return-user.dto';
+import {LocalUser} from 'src/common/types';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -27,16 +26,16 @@ export class AuthController {
     return await this.authService.verifyCode(verifyCodeDto);
   }
 
-  @Post()
-  @docs.create('사용자 등록')
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return await this.authService.create(createUserDto);
+  @Post('signup')
+  @docs.signup('사용자 회원가입')
+  async signup(@Body() signUpDto: SignUpDto) {
+    return await this.authService.signup(signUpDto);
   }
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @docs.login('사용자 로그인')
-  async login(@Body() returnUserDto: ReturnUserDto) {
-    return await this.authService.login(returnUserDto);
+  async login(@AuthUser() user: LocalUser) {
+    return await this.authService.login(user);
   }
 }

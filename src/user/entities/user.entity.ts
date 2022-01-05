@@ -21,28 +21,28 @@ export class User extends BaseEntity {
     unique: true,
     nullable: true,
   })
-  @ApiProperty({description: '사용자의 이메일'})
+  @ApiProperty({description: '사용자의 이메일', example: 'sowoojuenterprise@gmail.com'})
   email: string;
 
   @Column()
-  @ApiProperty({description: '사용자의 비밀번호'})
   password: string;
 
   @Column({
     unique: true,
     nullable: true,
   })
-  @ApiProperty({description: '사용자의 구글 ID'})
+  @ApiProperty({description: '사용자의 구글 ID', example: '1234'})
   googleAccount: string;
 
   @Column({
     unique: true,
     nullable: true,
   })
-  @ApiProperty({description: '사용자의 카카오 ID'})
+  @ApiProperty({description: '사용자의 카카오 ID', example: '1234'})
   kakaoAccount: string;
 
   @Column({type: 'text', nullable: true})
+  @ApiProperty({description: '사용자의 리프레시 토큰', example: '123456789'})
   refreshToken: string;
 
   /* Relations */
