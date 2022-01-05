@@ -10,9 +10,12 @@ import {Err} from '../common/error';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
 import {JwtService} from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import {CreateUserDto} from './dto/create-user.dto';
+import {User} from 'src/user/entities/user.entity';
 
 @Injectable()
 export class AuthService {
+  userRepository: any;
   constructor(
     @InjectRepository(VerifyCode)
     private readonly verifyCodeRepository: Repository<VerifyCode>,
@@ -32,8 +35,26 @@ export class AuthService {
     return null;
   }
 
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    const {email, password} = createUserDto;
+
+    const existingEmail = await this.userRepository.findOne({
+      where: {
+        email: createUserDto.email,
+      },
+    });
+    if (existingEmail) {
+      throw new BadRequestException(Err.USER.EXISTING_USER);
+    }
+    const user = new User();
+    user.email = email;
+    user.password = password;
+
+    return user;
+  }
+
   async login(user: any) {
-    const payload = {username: user.username, sub: user.userId};
+    const payload = {email: user.email, sub: user.id};
     return {
       access_token: this.jwtService.sign(payload),
     };

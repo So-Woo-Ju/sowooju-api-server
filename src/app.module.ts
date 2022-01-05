@@ -8,12 +8,12 @@ import {MediaModule} from './media/media.module';
 import {AuthModule} from './auth/auth.module';
 import databaseConfig from './common/config/database.config';
 import mailConfig from './common/config/mail.config';
-// import authConfig from './common/config/auth.config';
+import authConfig from './common/config/auth.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [databaseConfig, mailConfig],
+      load: [databaseConfig, mailConfig, authConfig],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
