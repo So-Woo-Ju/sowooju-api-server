@@ -1,27 +1,19 @@
 import {applyDecorators} from '@nestjs/common';
-import {
-  ApiBearerAuth,
-  ApiBody,
-  ApiCreatedResponse,
-  ApiOperation,
-  ApiUnauthorizedResponse,
-} from '@nestjs/swagger';
-import {ReturnUserDto} from './dto/return-user.dto';
+import {ApiCreatedResponse, ApiOperation, ApiBearerAuth} from '@nestjs/swagger';
 import {UserController} from './user.controller';
-
-type SwaggerMethodDoc<T> = {
-  [K in keyof T]: (description: string) => MethodDecorator;
-};
+import {SwaggerMethodDoc} from 'src/common/types';
+import {GetProfileResponseBodyDto} from './dto/get-profile.dto';
 
 export const docs: SwaggerMethodDoc<UserController> = {
   getProfile(summary: string) {
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
         summary,
         description: '사용자 정보를 조회합니다.',
       }),
       ApiCreatedResponse({
-        type: ReturnUserDto,
+        type: GetProfileResponseBodyDto,
       }),
     );
   },
