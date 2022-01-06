@@ -156,7 +156,7 @@ export class AuthService {
     const tokenExp = new Date(tokenVerify['exp'] * 1000);
     const weekRemaining = differenceInWeeks(tokenExp, new Date());
 
-    if (weekRemaining < 2) {
+    if (weekRemaining > 2) {
       throw new BadRequestException(Err.TOKEN.REFRESH_TOKEN_NOT_REISSUED);
     }
     return await this.login(id);
