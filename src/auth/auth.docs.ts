@@ -13,7 +13,6 @@ import {VerifyCodeResponseBodyDto} from './dto/verify-code.dto';
 import {SwaggerMethodDoc} from 'src/common/types';
 import {LoginResponseBodyDto, LoginDto} from './dto/login.dto';
 import {CreateAccessTokenResponseBodyDto} from './dto/create-access-token.dto';
-import {CreateRefershTokenResponseDto} from './dto/create-refresh-token.dto';
 
 export const docs: SwaggerMethodDoc<AuthController> = {
   sendEmail(summary: string) {

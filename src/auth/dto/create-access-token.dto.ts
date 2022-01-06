@@ -1,5 +1,4 @@
 import {ApiProperty} from '@nestjs/swagger';
-import {IsEmail, IsString} from 'class-validator';
 import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
 export class CreateAccessTokenResponseDto {

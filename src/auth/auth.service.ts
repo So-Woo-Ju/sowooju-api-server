@@ -14,7 +14,7 @@ import * as bcrypt from 'bcrypt';
 import {SignUpDto} from './dto/signup.dto';
 import {User} from 'src/user/entities/user.entity';
 import {LoginResponseDto} from './dto/login.dto';
-import {JwtPayload, LocalUser} from 'src/common/types';
+import {JwtPayload} from 'src/common/types';
 import {ConfigService} from '@nestjs/config';
 import {CreateRefershTokenResponseDto} from './dto/create-refresh-token.dto';
 

@@ -1,12 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  ManyToOne,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import {Column, DeleteDateColumn, Entity, ManyToOne} from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
 import {User} from './../../user/entities/user.entity';
 import {BaseEntity} from './../../common/entity/base-entity.entity';

@@ -1,4 +1,4 @@
-import {Controller, Post, Body, Request, Param, Delete, UseGuards, Get} from '@nestjs/common';
+import {Controller, Post, Body, UseGuards} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {AuthService} from './auth.service';
 import {SendEmailDto} from './dto/send-email.dto';
