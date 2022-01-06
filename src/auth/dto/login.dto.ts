@@ -15,6 +15,12 @@ export class LoginDto {
 export class LoginResponseDto {
   @ApiProperty({example: '123456789'})
   accessToken: string;
+
+  @ApiProperty({example: '123456789'})
+  refreshToken: string;
+
+  @ApiProperty({example: '2022-02-05T13:04:26.000Z'})
+  tokenExp: Date;
 }
 
 export class LoginResponseBodyDto extends BaseResponseDto {
