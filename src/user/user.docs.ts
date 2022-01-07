@@ -1,5 +1,5 @@
 import {applyDecorators} from '@nestjs/common';
-import {ApiCreatedResponse, ApiOperation, ApiBearerAuth} from '@nestjs/swagger';
+import {ApiCreatedResponse, ApiOperation, ApiBearerAuth, ApiResponse} from '@nestjs/swagger';
 import {UserController} from './user.controller';
 import {SwaggerMethodDoc} from 'src/common/types';
 import {GetProfileResponseBodyDto} from './dto/get-profile.dto';
@@ -14,6 +14,11 @@ export const docs: SwaggerMethodDoc<UserController> = {
       }),
       ApiCreatedResponse({
         type: GetProfileResponseBodyDto,
+      }),
+      ApiResponse({
+        status: 401,
+        description:
+          '1. 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
       }),
     );
   },

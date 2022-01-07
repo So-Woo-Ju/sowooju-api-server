@@ -81,7 +81,7 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       ApiResponse({
         status: 401,
         description:
-          '1. Refresh Token 전송이 안 되었습니다.\t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다. \t\n 4. 유효하지 않은 토큰입니다.',
+          '1. 리프레시 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
       }),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
       ApiResponse({status: 500, description: '예기치 못한 못한 서버에러가 발생했습니다.'}),
@@ -101,7 +101,7 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       ApiResponse({
         status: 401,
         description:
-          '1. Refresh Token 전송이 안 되었습니다.\t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다. \t\n 4. 유효하지 않은 토큰입니다.',
+          '1. 리프레시 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
       }),
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
       ApiResponse({status: 405, description: '토큰 만료 2주 전부터 갱신이 가능합니다.'}),
