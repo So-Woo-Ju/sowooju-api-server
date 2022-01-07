@@ -32,11 +32,11 @@ export const Err = {
     },
     NOT_SEND_REFRESH_TOKEN: {
       code: 401,
-      message: 'Refresh Token 전송이 안 되었습니다.',
+      message: '리프레시 토큰이 전송되지 않았습니다.',
     },
     NOT_SEND_TOKEN: {
       code: 401,
-      message: 'Token 전송이 안 되었습니다.',
+      message: '토큰이 전송되지 않았습니다.',
     },
   },
   VERIFY_CODE: {
