@@ -1,4 +1,4 @@
-import {Controller, Post, Body, Request, Param, Delete, UseGuards, Get} from '@nestjs/common';
+import {Controller, Post, Body, UseGuards} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {AuthService} from './auth.service';
 import {SendEmailDto} from './dto/send-email.dto';
@@ -7,7 +7,8 @@ import {docs} from './auth.docs';
 import {LocalAuthGuard} from './guard/local-auth.guard';
 import {SignUpDto} from './dto/signup.dto';
 import {AuthUser} from 'src/common/decorators/user.decorator';
-import {LocalUser} from 'src/common/types';
+import {LocalUser, JwtUser} from 'src/common/types';
+import {JwtRefreshGuard} from './guard/jwt-refresh.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -36,6 +37,21 @@ export class AuthController {
   @Post('login')
   @docs.login('사용자 로그인')
   async login(@AuthUser() user: LocalUser) {
-    return await this.authService.login(user);
+    return await this.authService.login(user.id);
+  }
+
+  @UseGuards(JwtRefreshGuard)
+  @Post('access-token')
+  @docs.createAccessToken('액세스 토큰 재발급')
+  async createAccessToken(@AuthUser() user: JwtUser) {
+    const accessToken = await this.authService.createAccessToken(user.id);
+    return {accessToken};
+  }
+
+  @UseGuards(JwtRefreshGuard)
+  @Post('refresh-token')
+  @docs.reissueRefreshToken('리프레시 토큰 갱신')
+  async reissueRefreshToken(@AuthUser() user: JwtUser) {
+    return await this.authService.reissueRefreshToken(user.id);
   }
 }

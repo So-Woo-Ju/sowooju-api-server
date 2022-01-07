@@ -1,11 +1,9 @@
 import {registerAs} from '@nestjs/config';
-import {JwtModuleOptions} from '@nestjs/jwt';
 
-export type AuthConfig = JwtModuleOptions;
-
-export default registerAs('auth', async (): Promise<AuthConfig> => {
+export default registerAs('auth', () => {
   return {
     secret: process.env.JWT_SECRET_KEY,
-    signOptions: {expiresIn: '900s'},
+    accessTokenExp: '15m',
+    refreshTokenExp: '30d',
   };
 });

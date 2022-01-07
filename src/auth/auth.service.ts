@@ -8,12 +8,15 @@ import {UserService} from './../user/user.service';
 import {VerifyCodeDto, VerifyCodeResponseDto} from './dto/verify-code.dto';
 import {Err} from '../common/error';
 import differenceInMinutes from 'date-fns/differenceInMinutes';
+import differenceInWeeks from 'date-fns/differenceInWeeks';
 import {JwtService} from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import {SignUpDto} from './dto/signup.dto';
 import {User} from 'src/user/entities/user.entity';
 import {LoginResponseDto} from './dto/login.dto';
-import {JwtPayload, LocalUser} from 'src/common/types';
+import {JwtPayload} from 'src/common/types';
+import {ConfigService} from '@nestjs/config';
+import {CreateRefershTokenResponseDto} from './dto/create-refresh-token.dto';
 
 @Injectable()
 export class AuthService {
@@ -25,44 +28,8 @@ export class AuthService {
     private readonly mailSender: MailSender,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
   ) {}
-
-  async validateUser(email: string, pass: string): Promise<any> {
-    const existingUser = await this.userService.findUserByEmail(email);
-    if (!existingUser) throw new BadRequestException(Err.USER.NOT_FOUND);
-
-    const password = await bcrypt.compare(pass, existingUser.password);
-    if (password) {
-      const {password, ...result} = existingUser;
-      return result;
-    }
-    return null;
-  }
-
-  async signup(signUpDto: SignUpDto): Promise<User> {
-    const {email, password} = signUpDto;
-
-    const existingUser = await this.userService.findUserByEmail(email);
-    if (existingUser) {
-      throw new BadRequestException(Err.USER.EXISTING_USER);
-    }
-
-    const user = new User();
-    user.email = email;
-    user.password = password;
-
-    await this.userRepository.save(user);
-    delete user.password;
-
-    return user;
-  }
-
-  async login({id}: LocalUser): Promise<LoginResponseDto> {
-    const payload: JwtPayload = {sub: id};
-    return {
-      accessToken: this.jwtService.sign(payload),
-    };
-  }
 
   async sendEmail({email}: SendEmailDto): Promise<SendEmailResponseDto> {
     const existingUser = await this.userService.findUserByEmail(email);
@@ -113,5 +80,85 @@ export class AuthService {
 
     this.verifyCodeRepository.remove(verifyCode);
     return {isVerify: true};
+  }
+
+  async validateUser(email: string, pass: string): Promise<any> {
+    const existingUser = await this.userService.findUserByEmail(email);
+    if (!existingUser) throw new BadRequestException(Err.USER.NOT_FOUND);
+
+    const password = await bcrypt.compare(pass, existingUser.password);
+    if (password) {
+      const {password, ...result} = existingUser;
+      return result;
+    }
+    return null;
+  }
+
+  async signup(signUpDto: SignUpDto): Promise<User> {
+    const {email, password} = signUpDto;
+
+    const existingUser = await this.userService.findUserByEmail(email);
+    if (existingUser) {
+      throw new BadRequestException(Err.USER.EXISTING_USER);
+    }
+
+    const user = new User();
+    user.email = email;
+    user.password = password;
+
+    const savedUser = await this.userRepository.save(user);
+    await this.createRefreshToken(savedUser.id);
+
+    delete user.password;
+
+    return user;
+  }
+
+  async login(id: number): Promise<LoginResponseDto> {
+    const accessToken = await this.createAccessToken(id);
+    const {refreshToken, tokenExp} = await this.createRefreshToken(id);
+    return {accessToken, refreshToken, tokenExp};
+  }
+
+  async createAccessToken(id: number): Promise<string> {
+    const payload: JwtPayload = {sub: id};
+    const accessToken = this.jwtService.sign(payload, {
+      expiresIn: this.configService.get('auth').accessTokenExp,
+    });
+    return accessToken;
+  }
+
+  async createRefreshToken(id: number): Promise<CreateRefershTokenResponseDto> {
+    const payload: JwtPayload = {sub: id};
+    const refreshToken = this.jwtService.sign(payload, {
+      expiresIn: this.configService.get('auth').refreshTokenExp,
+    });
+
+    const tokenVerify = await this.tokenValidate(refreshToken);
+    const tokenExp = new Date(tokenVerify['exp'] * 1000);
+    await this.userRepository.update(id, {refreshToken});
+
+    return {refreshToken, tokenExp};
+  }
+
+  async tokenValidate(token: string) {
+    return await this.jwtService.verify(token);
+  }
+
+  async reissueRefreshToken(id: number): Promise<LoginResponseDto> {
+    const existingUser = await this.userService.findUserById(id);
+    if (!existingUser) {
+      throw new BadRequestException(Err.USER.NOT_FOUND);
+    }
+
+    const token = existingUser.refreshToken;
+    const tokenVerify = await this.tokenValidate(token);
+    const tokenExp = new Date(tokenVerify['exp'] * 1000);
+    const weekRemaining = differenceInWeeks(tokenExp, new Date());
+
+    if (weekRemaining > 2) {
+      throw new BadRequestException(Err.TOKEN.REFRESH_TOKEN_NOT_REISSUED);
+    }
+    return await this.login(id);
   }
 }

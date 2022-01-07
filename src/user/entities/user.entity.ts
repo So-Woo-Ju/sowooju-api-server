@@ -1,13 +1,4 @@
-import {
-  BeforeInsert,
-  Column,
-  CreateDateColumn,
-  DeleteDateColumn,
-  Entity,
-  OneToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import {BeforeInsert, Column, DeleteDateColumn, Entity, OneToMany} from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
 import {Media} from './../../media/entities/media.entity';
 import {BaseEntity} from './../../common/entity/base-entity.entity';

@@ -6,7 +6,7 @@ export const Err = {
     },
     NOT_FOUND: {
       code: 400,
-      message: '사용자가 존재하지 않습니다.',
+      message: '존재하지 않는 사용자입니다.',
     },
     EXISTING_USER: {
       code: 400,
@@ -24,7 +24,7 @@ export const Err = {
     },
     REFRESH_TOKEN_NOT_REISSUED: {
       code: 405,
-      message: '토큰 만료 7일전부터 갱신이 가능합니다.',
+      message: '토큰 만료 2주 전부터 갱신이 가능합니다.',
     },
     NO_PERMISSION: {
       code: 403,
@@ -56,7 +56,7 @@ export const Err = {
     },
     NOT_SEND_MAIL_ERROR: {
       code: 500,
-      message: '메일 전송 중 에러가 발생하였습니다 ',
+      message: '메일 전송 중 에러가 발생하였습니다.',
     },
   },
 };
