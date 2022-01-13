@@ -20,6 +20,7 @@ import {CreateRefershTokenResponseDto} from './dto/create-refresh-token.dto';
 
 @Injectable()
 export class AuthService {
+  
   constructor(
     @InjectRepository(VerifyCode)
     private readonly verifyCodeRepository: Repository<VerifyCode>,
@@ -161,4 +162,29 @@ export class AuthService {
     }
     return await this.login(id);
   }
+
+  async validateKakao(kakaoId: string): Promise<any> {
+    const user = await this.userRepository.findOne({
+      where: {
+        kakaoAccount: kakaoId,
+      },
+    });
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
+  async validateGoogle(googleId: string): Promise<any> {
+    const user = await this.userRepository.findOne({
+      where: {
+        googleAccount: googleId,
+      },
+    });
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
 }

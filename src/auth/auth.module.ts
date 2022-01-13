@@ -12,6 +12,8 @@ import {LocalStrategy} from './strategy/local.strategy';
 import {JwtStrategy} from './strategy/jwt.strategy';
 import {User} from './../user/entities/user.entity';
 import {JwtRefreshStrategy} from './strategy/jwt-refresh.strategy';
+import { KakaoStrategy } from './strategy/kakao.strategy';
+import { GoogleStrategy } from './strategy/google.strategy';
 
 @Module({
   imports: [
@@ -31,7 +33,7 @@ import {JwtRefreshStrategy} from './strategy/jwt-refresh.strategy';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, MailSender, LocalStrategy, JwtStrategy, JwtRefreshStrategy],
+  providers: [AuthService, MailSender, LocalStrategy, JwtStrategy, JwtRefreshStrategy, KakaoStrategy, GoogleStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}
