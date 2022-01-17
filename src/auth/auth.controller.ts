@@ -65,8 +65,8 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   @Get('google/redirect')
   @docs.signInWithGoogleRedirect('구글 로그인')
-  async signInWithGoogleRedirect(@Req() req) {
-    return this.authService.validateGoogle(req);
+  async signInWithGoogleRedirect(@AuthUser() authuser) {
+    return this.authService.validateGoogle(authuser.User_id);
   }  
 
   @UseGuards(KakaoAuthGuard)
@@ -77,8 +77,8 @@ export class AuthController {
   @UseGuards(KakaoAuthGuard)
   @Get('kakao/redirect')
   @docs.signInWithKakaoRedirect('카카오 로그인')
-  async signInWithKakaoRedirect(@Req() req) {
-    return this.authService.validateKakao(req);
+  async signInWithKakaoRedirect(@AuthUser() authuser) {
+    return await this.authService.login(authuser.User_id)
   } 
 }
 
