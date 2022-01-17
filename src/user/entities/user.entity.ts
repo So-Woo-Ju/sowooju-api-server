@@ -15,7 +15,9 @@ export class User extends BaseEntity {
   @ApiProperty({description: '사용자의 이메일', example: 'sowoojuenterprise@gmail.com'})
   email: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   password: string;
 
   @Column({
