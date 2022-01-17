@@ -5,6 +5,7 @@ import {
   ApiBody,
   ApiBearerAuth,
   ApiResponse,
+  ApiOkResponse,
 } from '@nestjs/swagger';
 import {AuthController} from './auth.controller';
 import {SignUpResponseBodyDto} from './dto/signup.dto';
@@ -109,40 +110,39 @@ export const docs: SwaggerMethodDoc<AuthController> = {
   },
   signInWithGoogle(summary: string){
     return applyDecorators(
-      
-
+      ApiOperation({
+        description: '로그인을 진행합니다',
+      })
     );
   },
   signInWithGoogleRedirect(summary: string){
     return applyDecorators(
       ApiOperation({
         summary,
-        description: '로그인을 진행합니다',
       }),
-      ApiBody({ type: GoogleLoginDto }), 
       ApiCreatedResponse({
         type: GoogleLoginResponseBodyDto, 
       }),
-      ApiResponse({ status: 400, description: '존재하지 않는 사용자입니다.' })
+      ApiOkResponse({ status: 400, description: '존재하지 않는 사용자입니다.' })
 
     );
   },
   signInWithKakao(summary: string){
     return applyDecorators(
-
-      );
+      ApiOperation({
+        description: '로그인을 진행합니다',
+      })
+    );
   },
   signInWithKakaoRedirect(summary: string){
     return applyDecorators(
       ApiOperation({
         summary,
-        description: '로그인을 진행합니다',
       }),
-      ApiBody({ type: KakaoLoginDto }), 
       ApiCreatedResponse({
         type: KakaoLoginResponseBodyDto, 
       }),
-      ApiResponse({ status: 400, description: '존재하지 않는 사용자입니다.' })
+      ApiOkResponse({ status: 400, description: '존재하지 않는 사용자입니다.' })
       );
   }
 };
