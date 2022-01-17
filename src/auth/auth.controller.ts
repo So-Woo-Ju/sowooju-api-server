@@ -59,24 +59,28 @@ export class AuthController {
 
   @UseGuards(GoogleAuthGuard)
   @Get('google')
-  @docs.signInWithGoogle('구글 OAuth2 로그인 flow 시작')
-  async signInWithGoogle() { }
+  @docs.signInWithGoogle('구글 로그인')
+  async signInWithGoogle() {
+    return;
+   }
 
   @UseGuards(GoogleAuthGuard)
   @Get('google/redirect')
-  @docs.signInWithGoogleRedirect('구글 로그인')
+  @docs.signInWithGoogleRedirect('구글 로그인 리다이렉트')
   async signInWithGoogleRedirect(@AuthUser() authuser) {
     return this.authService.validateGoogle(authuser.User_id);
   }  
 
   @UseGuards(KakaoAuthGuard)
   @Get('kakao')
-  @docs.signInWithKakao('카카오 OAuth2 로그인 flow 시작')
-  async signInWithKakao() { }
+  @docs.signInWithKakao('카카오 로그인')
+  async signInWithKakao() {
+    return;
+  }
 
   @UseGuards(KakaoAuthGuard)
   @Get('kakao/redirect')
-  @docs.signInWithKakaoRedirect('카카오 로그인')
+  @docs.signInWithKakaoRedirect('카카오 로그인 리다이렉트')
   async signInWithKakaoRedirect(@AuthUser() authuser) {
     return await this.authService.login(authuser.User_id)
   } 
