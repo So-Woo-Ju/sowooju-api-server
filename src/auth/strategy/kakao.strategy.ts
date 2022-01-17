@@ -18,10 +18,10 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     done: any,
   ): Promise<any> {
     const kakaoId = String(profile.id);
-    const user = await this.authService.validateKakao(kakaoId);
+    let user = await this.authService.validateKakao(kakaoId);
     if (user === null) {
-      done(null, { kakaoId, type: 'kakao' });
+      user = await this.authService.validateKakao(kakaoId);
     }
-    done(null, { user, type: 'login' });
+    done(null, { user : user.User_id });
   }
 }
