@@ -21,11 +21,11 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     done: VerifyCallback,
   ): Promise<any> {
     const googleId = profile.id;
-    const user = await this.authService.validateGoogle(googleId);
+    let user = await this.authService.validateGoogle(googleId);
     if (user === null) {
-      return { googleId, type: 'google' };
+      user = await this.authService.validateKakao(googleId);
     }
 
-    return { user, type: 'login' };
+    done(null, { user : user.User_id });
   }
 }
