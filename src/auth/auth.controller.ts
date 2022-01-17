@@ -74,8 +74,8 @@ export class AuthController {
   @docs.signInWithKakao('카카오 OAuth2 로그인 flow 시작')
   async signInWithKakao() { }
 
-  @UseGuards(GoogleAuthGuard)
-  @Get('google/redirect')
+  @UseGuards(KakaoAuthGuard)
+  @Get('kakao/redirect')
   @docs.signInWithKakaoRedirect('카카오 로그인')
   async signInWithKakaoRedirect(@Req() req) {
     return this.authService.validateKakao(req);
