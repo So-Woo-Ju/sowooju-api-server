@@ -23,9 +23,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     const googleId = profile.id;
     let user = await this.authService.validateGoogle(googleId);
     if (user === null) {
-      user = await this.authService.validateKakao(googleId);
+      user = await this.authService.signupWithGoogle(googleId);
     }
 
-    done(null, { user : user.User_id });
+    done(null, { user : user.id });
   }
 }
