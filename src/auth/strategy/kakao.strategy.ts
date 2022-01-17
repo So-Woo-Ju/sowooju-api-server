@@ -20,8 +20,8 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     const kakaoId = String(profile.id);
     let user = await this.authService.validateKakao(kakaoId);
     if (user === null) {
-      user = await this.authService.validateKakao(kakaoId);
+      user = await this.authService.signupWithKakao(kakaoId);
     }
-    done(null, { user : user.User_id });
+    done(null, { user : user.id });
   }
 }
