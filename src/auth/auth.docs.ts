@@ -13,6 +13,8 @@ import {VerifyCodeResponseBodyDto} from './dto/verify-code.dto';
 import {SwaggerMethodDoc} from 'src/common/types';
 import {LoginResponseBodyDto, LoginDto} from './dto/login.dto';
 import {CreateAccessTokenResponseBodyDto} from './dto/create-access-token.dto';
+import { KakaoLoginDto, KakaoLoginResponseBodyDto } from './dto/kakao-login.dto';
+import { GoogleLoginDto, GoogleLoginResponseBodyDto } from './dto/google-login.dto';
 
 export const docs: SwaggerMethodDoc<AuthController> = {
   sendEmail(summary: string) {
@@ -117,9 +119,9 @@ export const docs: SwaggerMethodDoc<AuthController> = {
         summary,
         description: '로그인을 진행합니다',
       }),
-      ApiBody({ type: LoginDto }), // 여기 수정
+      ApiBody({ type: GoogleLoginDto }), 
       ApiCreatedResponse({
-        type: LoginResponseBodyDto, // 여기도 수정
+        type: GoogleLoginResponseBodyDto, 
       }),
       ApiResponse({ status: 400, description: '존재하지 않는 사용자입니다.' })
 
@@ -136,9 +138,9 @@ export const docs: SwaggerMethodDoc<AuthController> = {
         summary,
         description: '로그인을 진행합니다',
       }),
-      ApiBody({ type: LoginDto }), // 여기 수정
+      ApiBody({ type: KakaoLoginDto }), 
       ApiCreatedResponse({
-        type: LoginResponseBodyDto, // 여기도 수정
+        type: KakaoLoginResponseBodyDto, 
       }),
       ApiResponse({ status: 400, description: '존재하지 않는 사용자입니다.' })
       );
