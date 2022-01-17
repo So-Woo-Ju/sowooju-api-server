@@ -187,4 +187,14 @@ export class AuthService {
     return user;
   }
 
+  async signupWithKakao(kakaoId: string): Promise<any> {
+    const user = await this.userRepository.save({kakaoAccount: kakaoId});
+    return user;
+  }
+
+  async signupWithGoogle(googleId: string): Promise<any> {
+    const user = await this.userRepository.save({googleAccount: googleId});
+    return user;
+  }
+
 }
