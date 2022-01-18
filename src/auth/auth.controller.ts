@@ -1,4 +1,4 @@
-import {Controller, Post, Body, UseGuards} from '@nestjs/common';
+import {Controller, Post, Body, UseGuards, Req, Get} from '@nestjs/common';
 import {ApiTags} from '@nestjs/swagger';
 import {AuthService} from './auth.service';
 import {SendEmailDto} from './dto/send-email.dto';
@@ -9,6 +9,8 @@ import {SignUpDto} from './dto/signup.dto';
 import {AuthUser} from 'src/common/decorators/user.decorator';
 import {LocalUser, JwtUser} from 'src/common/types';
 import {JwtRefreshGuard} from './guard/jwt-refresh.guard';
+import {GoogleAuthGuard} from './guard/google-auth.guard';
+import {KakaoAuthGuard} from './guard/kakao-auth.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -53,5 +55,33 @@ export class AuthController {
   @docs.reissueRefreshToken('리프레시 토큰 갱신')
   async reissueRefreshToken(@AuthUser() user: JwtUser) {
     return await this.authService.reissueRefreshToken(user.id);
+  }
+
+  @UseGuards(GoogleAuthGuard)
+  @Get('google')
+  @docs.signInWithGoogle('구글 로그인')
+  async signInWithGoogle() {
+    return;
+  }
+
+  @UseGuards(GoogleAuthGuard)
+  @Get('google/redirect')
+  @docs.signInWithGoogleRedirect('구글 로그인 리다이렉트')
+  async signInWithGoogleRedirect(@AuthUser() authuser) {
+    return this.authService.validateGoogle(authuser.id);
+  }
+
+  @UseGuards(KakaoAuthGuard)
+  @Get('kakao')
+  @docs.signInWithKakao('카카오 로그인')
+  async signInWithKakao() {
+    return;
+  }
+
+  @UseGuards(KakaoAuthGuard)
+  @Get('kakao/redirect')
+  @docs.signInWithKakaoRedirect('카카오 로그인 리다이렉트')
+  async signInWithKakaoRedirect(@AuthUser() authuser) {
+    return await this.authService.login(authuser.id);
   }
 }

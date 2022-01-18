@@ -161,4 +161,38 @@ export class AuthService {
     }
     return await this.login(id);
   }
+
+  async validateKakao(kakaoId: string): Promise<any> {
+    const user = await this.userRepository.findOne({
+      where: {
+        kakaoAccount: kakaoId,
+      },
+    });
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
+  async validateGoogle(googleId: string): Promise<any> {
+    const user = await this.userRepository.findOne({
+      where: {
+        googleAccount: googleId,
+      },
+    });
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
+  async signupWithKakao(kakaoId: string): Promise<any> {
+    const user = await this.userRepository.save({kakaoAccount: kakaoId});
+    return user;
+  }
+
+  async signupWithGoogle(googleId: string): Promise<any> {
+    const user = await this.userRepository.save({googleAccount: googleId});
+    return user;
+  }
 }

@@ -5,6 +5,7 @@ import {
   ApiBody,
   ApiBearerAuth,
   ApiResponse,
+  ApiOkResponse,
 } from '@nestjs/swagger';
 import {AuthController} from './auth.controller';
 import {SignUpResponseBodyDto} from './dto/signup.dto';
@@ -13,6 +14,8 @@ import {VerifyCodeResponseBodyDto} from './dto/verify-code.dto';
 import {SwaggerMethodDoc} from 'src/common/types';
 import {LoginResponseBodyDto, LoginDto} from './dto/login.dto';
 import {CreateAccessTokenResponseBodyDto} from './dto/create-access-token.dto';
+import {KakaoLoginDto, KakaoLoginResponseBodyDto} from './dto/kakao-login.dto';
+import {GoogleLoginDto, GoogleLoginResponseBodyDto} from './dto/google-login.dto';
 
 export const docs: SwaggerMethodDoc<AuthController> = {
   sendEmail(summary: string) {
@@ -106,6 +109,42 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       ApiResponse({status: 403, description: '해당 요청의 권한이 없습니다'}),
       ApiResponse({status: 405, description: '토큰 만료 2주 전부터 갱신이 가능합니다.'}),
       ApiResponse({status: 500, description: '예기치 못한 못한 서버에러가 발생했습니다.'}),
+    );
+  },
+  signInWithGoogle(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        description: '구글 로그인을 진행합니다',
+      }),
+    );
+  },
+  signInWithGoogleRedirect(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+      }),
+      ApiCreatedResponse({
+        type: GoogleLoginResponseBodyDto,
+      }),
+      ApiOkResponse({status: 400, description: '존재하지 않는 사용자입니다.'}),
+    );
+  },
+  signInWithKakao(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        description: '카카오 로그인을 진행합니다',
+      }),
+    );
+  },
+  signInWithKakaoRedirect(summary: string) {
+    return applyDecorators(
+      ApiOperation({
+        summary,
+      }),
+      ApiCreatedResponse({
+        type: KakaoLoginResponseBodyDto,
+      }),
+      ApiOkResponse({status: 400, description: '존재하지 않는 사용자입니다.'}),
     );
   },
 };
