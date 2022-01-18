@@ -114,7 +114,8 @@ export const docs: SwaggerMethodDoc<AuthController> = {
   signInWithGoogle(summary: string) {
     return applyDecorators(
       ApiOperation({
-        description: '구글 로그인을 진행합니다',
+        summary,
+        description: '구글 로그인을 진행합니다.',
       }),
     );
   },
@@ -122,6 +123,7 @@ export const docs: SwaggerMethodDoc<AuthController> = {
     return applyDecorators(
       ApiOperation({
         summary,
+        description: '구글 로그인 성공시 리다이렉트됩니다.',
       }),
       ApiCreatedResponse({
         type: GoogleLoginResponseBodyDto,
@@ -132,7 +134,8 @@ export const docs: SwaggerMethodDoc<AuthController> = {
   signInWithKakao(summary: string) {
     return applyDecorators(
       ApiOperation({
-        description: '카카오 로그인을 진행합니다',
+        summary,
+        description: '카카오 로그인을 진행합니다.',
       }),
     );
   },
@@ -140,6 +143,7 @@ export const docs: SwaggerMethodDoc<AuthController> = {
     return applyDecorators(
       ApiOperation({
         summary,
+        description: '카카오 로그인 성공시 리다이렉트됩니다.',
       }),
       ApiCreatedResponse({
         type: KakaoLoginResponseBodyDto,

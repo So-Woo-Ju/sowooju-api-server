@@ -68,7 +68,7 @@ export class AuthController {
   @Get('google/redirect')
   @docs.signInWithGoogleRedirect('구글 로그인 리다이렉트')
   async signInWithGoogleRedirect(@AuthUser() authuser) {
-    return this.authService.validateGoogle(authuser.id);
+    return this.authService.login(authuser.id);
   }
 
   @UseGuards(KakaoAuthGuard)
