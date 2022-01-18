@@ -2,13 +2,14 @@ import {Injectable} from '@nestjs/common';
 import {Strategy} from 'passport-kakao';
 import {PassportStrategy} from '@nestjs/passport';
 import {AuthService} from '../auth.service';
+import {ConfigService} from '@nestjs/config';
 
 @Injectable()
 export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
-  constructor(private readonly authService: AuthService) {
+  constructor(config: ConfigService, private readonly authService: AuthService) {
     super({
-      clientID: process.env.KAKAO_KEY,
-      callbackURL: 'http://localhost:3000/api/v1/auth/kakao/redirect',
+      clientID: config.get('kakao').kakaoKey,
+      callbackURL: config.get('kakao').ip + '/api/v1/auth/kakao/redirect',
     });
   }
   async validate(accessToken: string, refreshToken: string, profile: any, done: any): Promise<any> {
