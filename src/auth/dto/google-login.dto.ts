@@ -6,7 +6,6 @@ export class GoogleLoginDto {
   @IsEmail()
   @ApiProperty({example: 'sowoojuenterprise@gmail.com'})
   googleAccount: string;
-
 }
 
 export class GoogleLoginResponseDto {

@@ -6,7 +6,6 @@ export class KakaoLoginDto {
   @IsEmail()
   @ApiProperty({example: 'sowoojuenterprise@naver.com'})
   kakaoAccount: string;
-
 }
 
 export class KakaoLoginResponseDto {

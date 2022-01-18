@@ -20,7 +20,6 @@ import {CreateRefershTokenResponseDto} from './dto/create-refresh-token.dto';
 
 @Injectable()
 export class AuthService {
-  
   constructor(
     @InjectRepository(VerifyCode)
     private readonly verifyCodeRepository: Repository<VerifyCode>,
@@ -196,5 +195,4 @@ export class AuthService {
     const user = await this.userRepository.save({googleAccount: googleId});
     return user;
   }
-
 }
