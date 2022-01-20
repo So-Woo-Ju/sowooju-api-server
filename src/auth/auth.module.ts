@@ -12,8 +12,7 @@ import {LocalStrategy} from './strategy/local.strategy';
 import {JwtStrategy} from './strategy/jwt.strategy';
 import {User} from './../user/entities/user.entity';
 import {JwtRefreshStrategy} from './strategy/jwt-refresh.strategy';
-import {KakaoStrategy} from './strategy/kakao.strategy';
-import {GoogleStrategy} from './strategy/google.strategy';
+import {HttpModule} from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -31,17 +30,10 @@ import {GoogleStrategy} from './strategy/google.strategy';
       },
       imports: [ConfigModule],
     }),
+    HttpModule,
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    MailSender,
-    LocalStrategy,
-    JwtStrategy,
-    JwtRefreshStrategy,
-    KakaoStrategy,
-    GoogleStrategy,
-  ],
+  providers: [AuthService, MailSender, LocalStrategy, JwtStrategy, JwtRefreshStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}
