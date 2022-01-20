@@ -9,11 +9,12 @@ import {AuthModule} from './auth/auth.module';
 import databaseConfig from './common/config/database.config';
 import mailConfig from './common/config/mail.config';
 import authConfig from './common/config/auth.config';
+import googleConfig from './common/config/google.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [databaseConfig, mailConfig, authConfig],
+      load: [databaseConfig, mailConfig, authConfig, googleConfig],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
