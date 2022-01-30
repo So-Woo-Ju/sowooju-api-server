@@ -195,4 +195,6 @@ export class AuthService {
     const user = await this.userRepository.save({googleAccount: googleId});
     return user;
   }
+
+  console.log("git commit test")
 }
