@@ -1,4 +1,4 @@
-import {BadRequestException, Injectable, InternalServerErrorException} from '@nestjs/common';
+import {BadRequestException, HttpException, Injectable, InternalServerErrorException} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {VerifyCode} from './entities/verify-code.entity';
@@ -17,18 +17,25 @@ import {LoginResponseDto} from './dto/login.dto';
 import {JwtPayload} from 'src/common/types';
 import {ConfigService} from '@nestjs/config';
 import {CreateRefershTokenResponseDto} from './dto/create-refresh-token.dto';
+import axios from 'axios';
+
 
 @Injectable()
 export class AuthService {
+  authService: any;
+  httpService: any;
   constructor(
     @InjectRepository(VerifyCode)
     private readonly verifyCodeRepository: Repository<VerifyCode>,
+    
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly mailSender: MailSender,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly DATA_URL = 'http://localhost:3000/api/v1/auth/kakao'
+    
   ) {}
 
   async sendEmail({email}: SendEmailDto): Promise<SendEmailResponseDto> {
@@ -196,5 +203,39 @@ export class AuthService {
     return user;
   }
 
-  console.log("git commit test")
+  async getUserInfoWithKakao(kakaotoken : string):Promise<any>{
+    const response = this.httpService
+    .get('localhost:3000/api/v1/auth/kakao')
+    .toPromise()
+    .catch((err) => {
+      throw new HttpException(err.response.data, err.response.status);
+    });
+    
+    let user = await this.authService.validateKakao(response.data.id);
+    if (user === null) {
+      user = await this.authService.signupWithKakao(response.data.id);
+    }
+  }
+
+  async getUserInfoWithGoogle(googletoken : string):Promise<any> {
+    const {OAuth2Client} = require('google-auth-library');
+    const CLIENT_ID = '74388920001-fhiqlu5k1lchc9nta4piavtv6aebems6.apps.googleusercontent.com';
+    const client = new OAuth2Client(CLIENT_ID);
+    let userid;
+    async function verify() {
+      const ticket = await client.verifyIdToken({
+          idToken: googletoken,
+          audience: CLIENT_ID,  
+      });
+      const payload = ticket.getPayload();
+      userid = payload['sub'];
+      console.log(payload);
+    }
+
+    let user = await this.authService.validateGoogle(userid);
+    if (user === null) {
+      user = await this.authService.signupWithGoogle(userid);
+    }
+  }
+
 }
