@@ -17,13 +17,11 @@ import {LoginResponseDto} from './dto/login.dto';
 import {JwtPayload} from 'src/common/types';
 import {ConfigService} from '@nestjs/config';
 import {CreateRefershTokenResponseDto} from './dto/create-refresh-token.dto';
-import axios from 'axios';
-
+import {OAuth2Client} from 'google-auth-library';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class AuthService {
-  authService: any;
-  httpService: any;
   constructor(
     @InjectRepository(VerifyCode)
     private readonly verifyCodeRepository: Repository<VerifyCode>,
@@ -34,8 +32,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-    private readonly DATA_URL = 'http://localhost:3000/api/v1/auth/kakao'
-    
+    private httpService: HttpService,  
   ) {}
 
   async sendEmail({email}: SendEmailDto): Promise<SendEmailResponseDto> {
@@ -205,21 +202,20 @@ export class AuthService {
 
   async getUserInfoWithKakao(kakaotoken : string):Promise<any>{
     const response = this.httpService
-    .get('localhost:3000/api/v1/auth/kakao')
+    .get('kapi.kakao.com/v2/user/me')
     .toPromise()
     .catch((err) => {
       throw new HttpException(err.response.data, err.response.status);
     });
     
-    let user = await this.authService.validateKakao(response.data.id);
+    let user = await this.validateKakao((await response).data.id);
     if (user === null) {
-      user = await this.authService.signupWithKakao(response.data.id);
+      user = await this.signupWithKakao((await response).data.id);
     }
   }
 
   async getUserInfoWithGoogle(googletoken : string):Promise<any> {
-    const {OAuth2Client} = require('google-auth-library');
-    const CLIENT_ID = '74388920001-fhiqlu5k1lchc9nta4piavtv6aebems6.apps.googleusercontent.com';
+    const CLIENT_ID = this.configService.get('google').googleClientId;
     const client = new OAuth2Client(CLIENT_ID);
     let userid;
     async function verify() {
@@ -232,9 +228,9 @@ export class AuthService {
       console.log(payload);
     }
 
-    let user = await this.authService.validateGoogle(userid);
+    let user = await this.validateGoogle(userid);
     if (user === null) {
-      user = await this.authService.signupWithGoogle(userid);
+      user = await this.signupWithGoogle(userid);
     }
   }
 

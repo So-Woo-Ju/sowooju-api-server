@@ -118,17 +118,7 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
     );
   },
-  signInWithGoogleRedirect(summary: string) {
-    return applyDecorators(
-      ApiOperation({
-        summary,
-      }),
-      ApiCreatedResponse({
-        type: GoogleLoginResponseBodyDto,
-      }),
-      ApiOkResponse({status: 400, description: '존재하지 않는 사용자입니다.'}),
-    );
-  },
+  
   signInWithKakao(summary: string) {
     return applyDecorators(
       ApiOperation({
@@ -136,15 +126,5 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
     );
   },
-  signInWithKakaoRedirect(summary: string) {
-    return applyDecorators(
-      ApiOperation({
-        summary,
-      }),
-      ApiCreatedResponse({
-        type: KakaoLoginResponseBodyDto,
-      }),
-      ApiOkResponse({status: 400, description: '존재하지 않는 사용자입니다.'}),
-    );
-  },
+  
 };

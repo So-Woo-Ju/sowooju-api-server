@@ -9,8 +9,9 @@ import {SignUpDto} from './dto/signup.dto';
 import {AuthUser} from 'src/common/decorators/user.decorator';
 import {LocalUser, JwtUser} from 'src/common/types';
 import {JwtRefreshGuard} from './guard/jwt-refresh.guard';
-// import {GoogleAuthGuard} from './guard/google-auth.guard';
-// import {KakaoAuthGuard} from './guard/kakao-auth.guard';
+import { KakaoLoginDto } from './dto/kakao-login.dto';
+import { GoogleLoginDto } from './dto/google-login.dto';
+
 
 @ApiTags('auth')
 @Controller('auth')
@@ -57,31 +58,16 @@ export class AuthController {
     return await this.authService.reissueRefreshToken(user.id);
   }
 
-  //@UseGuards(GoogleAuthGuard)
-  @Get('google')
-  @docs.signInWithGoogle('구글 로그인')
-  async signInWithGoogle() {
-    return;
-  }
-
-  //@UseGuards(GoogleAuthGuard)
-  @Get('google/redirect')
-  @docs.signInWithGoogleRedirect('구글 로그인 리다이렉트')
-  async signInWithGoogleRedirect(@AuthUser() authuser) {
-    return this.authService.validateGoogle(authuser.id);
-  }
-
-  //@UseGuards(KakaoAuthGuard)
   @Get('kakao')
   @docs.signInWithKakao('카카오 로그인')
-  async signInWithKakao() {
-    return;
+  async signInWithKakao(@Body() KakaoLoginDto: KakaoLoginDto) {
+    return this.authService.getUserInfoWithKakao;
   }
 
-  //@UseGuards(KakaoAuthGuard)
-  @Get('kakao/redirect')
-  @docs.signInWithKakaoRedirect('카카오 로그인 리다이렉트')
-  async signInWithKakaoRedirect(@AuthUser() authuser) {
-    return await this.authService.login(authuser.id);
+  @Get('google')
+  @docs.signInWithGoogle('구글 로그인')
+  async signInWithGoogle(@Body() GoogleLoginDto: GoogleLoginDto) {
+    return this.authService.getUserInfoWithGoogle;
   }
+  
 }
