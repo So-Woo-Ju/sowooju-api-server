@@ -19,6 +19,9 @@ import {ConfigService} from '@nestjs/config';
 import {CreateRefershTokenResponseDto} from './dto/create-refresh-token.dto';
 import {OAuth2Client} from 'google-auth-library';
 import { HttpService } from '@nestjs/axios';
+import { GoogleLoginDto } from './dto/google-login.dto';
+import { KakaoLoginDto } from './dto/kakao-login.dto';
+import { catchError, lastValueFrom, map } from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -200,38 +203,44 @@ export class AuthService {
     return user;
   }
 
-  async getUserInfoWithKakao(kakaotoken : string):Promise<any>{
-    const response = this.httpService
-    .get('kapi.kakao.com/v2/user/me')
-    .toPromise()
-    .catch((err) => {
-      throw new HttpException(err.response.data, err.response.status);
-    });
+  async getUserInfoWithKakao(kakaoLoginDto : KakaoLoginDto):Promise<any>{
+    const token = kakaoLoginDto.kakaoToken;
+    const _url = 'https://kapi.kakao.com/v2/user/me';
+    const _header = {
+      'Content-type': 'application/x-www-form-urlencoded;charset=utf-8',
+      Authorization: `Bearer ${token}`,
+    };
+    const kakaoAccount = await lastValueFrom(
+      this.httpService.post(_url, '', {headers: _header}).pipe(
+        map(response => {
+          return response.data.id;
+        }),
+        catchError(() => {
+          throw new BadRequestException(Err.TOKEN.INVALID_TOKEN);
+        }),
+      ),
+    );
     
-    let user = await this.validateKakao((await response).data.id);
+    let user = await this.validateKakao(kakaoAccount);
     if (user === null) {
-      user = await this.signupWithKakao((await response).data.id);
+      user = await this.signupWithKakao(kakaoAccount);
     }
+    return await this.createAccessToken(user.id);
   }
 
-  async getUserInfoWithGoogle(googletoken : string):Promise<any> {
-    const CLIENT_ID = this.configService.get('google').googleClientId;
-    const client = new OAuth2Client(CLIENT_ID);
-    let userid;
-    async function verify() {
-      const ticket = await client.verifyIdToken({
-          idToken: googletoken,
-          audience: CLIENT_ID,  
-      });
-      const payload = ticket.getPayload();
-      userid = payload['sub'];
-      console.log(payload);
+  async getUserInfoWithGoogle(googleLoginDto: GoogleLoginDto):Promise<any> {
+    const clientId = this.configService.get('google').googleClientId;
+    const oAuth2Client = new OAuth2Client(clientId);
+
+    const googleInfo = await oAuth2Client.verifyIdToken({idToken: googleLoginDto.googleToken});
+    const googleAccount = googleInfo.getPayload().sub;
+
+    let user = await this.validateGoogle(googleAccount);
+    if (user === null) {
+      user = await this.signupWithGoogle(googleAccount);
     }
 
-    let user = await this.validateGoogle(userid);
-    if (user === null) {
-      user = await this.signupWithGoogle(userid);
-    }
+    return await this.createAccessToken(user.id);
   }
 
 }

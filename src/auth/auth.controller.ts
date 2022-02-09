@@ -58,16 +58,16 @@ export class AuthController {
     return await this.authService.reissueRefreshToken(user.id);
   }
 
-  @Get('kakao')
+  @Post('kakao')
   @docs.signInWithKakao('카카오 로그인')
-  async signInWithKakao(@Body() KakaoLoginDto: KakaoLoginDto) {
-    return this.authService.getUserInfoWithKakao;
+  async signInWithKakao(@Body() kakaoLoginDto: KakaoLoginDto) {
+    return this.authService.getUserInfoWithKakao(kakaoLoginDto);
   }
 
-  @Get('google')
+  @Post('google')
   @docs.signInWithGoogle('구글 로그인')
-  async signInWithGoogle(@Body() GoogleLoginDto: GoogleLoginDto) {
-    return this.authService.getUserInfoWithGoogle;
+  async signInWithGoogle(@Body() googleLoginDto: GoogleLoginDto) {
+    return this.authService.getUserInfoWithGoogle(googleLoginDto);
   }
   
 }
