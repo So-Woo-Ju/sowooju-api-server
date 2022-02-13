@@ -9,9 +9,8 @@ import {SignUpDto} from './dto/signup.dto';
 import {AuthUser} from 'src/common/decorators/user.decorator';
 import {LocalUser, JwtUser} from 'src/common/types';
 import {JwtRefreshGuard} from './guard/jwt-refresh.guard';
-import { KakaoLoginDto } from './dto/kakao-login.dto';
-import { GoogleLoginDto } from './dto/google-login.dto';
-
+import {KakaoLoginDto} from './dto/kakao-login.dto';
+import {GoogleLoginDto} from './dto/google-login.dto';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -69,5 +68,4 @@ export class AuthController {
   async signInWithGoogle(@Body() googleLoginDto: GoogleLoginDto) {
     return this.authService.getUserInfoWithGoogle(googleLoginDto);
   }
-  
 }

@@ -1,4 +1,9 @@
-import {BadRequestException, HttpException, Injectable, InternalServerErrorException} from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
 import {VerifyCode} from './entities/verify-code.entity';
@@ -18,24 +23,24 @@ import {JwtPayload} from 'src/common/types';
 import {ConfigService} from '@nestjs/config';
 import {CreateRefershTokenResponseDto} from './dto/create-refresh-token.dto';
 import {OAuth2Client} from 'google-auth-library';
-import { HttpService } from '@nestjs/axios';
-import { GoogleLoginDto } from './dto/google-login.dto';
-import { KakaoLoginDto } from './dto/kakao-login.dto';
-import { catchError, lastValueFrom, map } from 'rxjs';
+import {HttpService} from '@nestjs/axios';
+import {GoogleLoginDto} from './dto/google-login.dto';
+import {KakaoLoginDto} from './dto/kakao-login.dto';
+import {catchError, lastValueFrom, map} from 'rxjs';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(VerifyCode)
     private readonly verifyCodeRepository: Repository<VerifyCode>,
-    
+
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     private readonly mailSender: MailSender,
     private readonly userService: UserService,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
-    private httpService: HttpService,  
+    private httpService: HttpService,
   ) {}
 
   async sendEmail({email}: SendEmailDto): Promise<SendEmailResponseDto> {
@@ -203,7 +208,7 @@ export class AuthService {
     return user;
   }
 
-  async getUserInfoWithKakao(kakaoLoginDto : KakaoLoginDto):Promise<any>{
+  async getUserInfoWithKakao(kakaoLoginDto: KakaoLoginDto): Promise<any> {
     const token = kakaoLoginDto.kakaoToken;
     const _url = 'https://kapi.kakao.com/v2/user/me';
     const _header = {
@@ -220,7 +225,7 @@ export class AuthService {
         }),
       ),
     );
-    
+
     let user = await this.validateKakao(kakaoAccount);
     if (user === null) {
       user = await this.signupWithKakao(kakaoAccount);
@@ -228,7 +233,7 @@ export class AuthService {
     return await this.createAccessToken(user.id);
   }
 
-  async getUserInfoWithGoogle(googleLoginDto: GoogleLoginDto):Promise<any> {
+  async getUserInfoWithGoogle(googleLoginDto: GoogleLoginDto): Promise<any> {
     const clientId = this.configService.get('google').googleClientId;
     const oAuth2Client = new OAuth2Client(clientId);
 
@@ -242,5 +247,4 @@ export class AuthService {
 
     return await this.createAccessToken(user.id);
   }
-
 }

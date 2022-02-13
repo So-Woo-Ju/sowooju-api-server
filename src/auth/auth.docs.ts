@@ -118,7 +118,7 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
     );
   },
-  
+
   signInWithKakao(summary: string) {
     return applyDecorators(
       ApiOperation({
@@ -126,5 +126,4 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
     );
   },
-  
 };
