@@ -40,10 +40,8 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       ApiCreatedResponse({
         type: VerifyCodeResponseBodyDto,
       }),
-      ApiResponse({
-        status: 500,
-        description: '1. 유효하지 않은 정보입니다.\t\n 2. 유효기간이 만료된 코드입니다.',
-      }),
+      ApiResponse({status: 400, description: '유효기간이 만료된 코드입니다.'}),
+      ApiResponse({status: 500, description: '유효하지 않은 정보입니다.'}),
     );
   },
   signup(summary: string) {
@@ -114,41 +112,45 @@ export const docs: SwaggerMethodDoc<AuthController> = {
   signInWithGoogle(summary: string) {
     return applyDecorators(
       ApiOperation({
-        summary,
-        description: '구글 로그인을 진행합니다.',
+        description: '구글 로그인을 진행합니다',
       }),
     );
   },
-  signInWithGoogleRedirect(summary: string) {
-    return applyDecorators(
-      ApiOperation({
-        summary,
-        description: '구글 로그인 성공시 리다이렉트됩니다.',
-      }),
-      ApiCreatedResponse({
-        type: GoogleLoginResponseBodyDto,
-      }),
-      ApiOkResponse({status: 400, description: '존재하지 않는 사용자입니다.'}),
-    );
-  },
+  
   signInWithKakao(summary: string) {
     return applyDecorators(
       ApiOperation({
-        summary,
-        description: '카카오 로그인을 진행합니다.',
+        description: '카카오 로그인을 진행합니다',
       }),
     );
-  },
-  signInWithKakaoRedirect(summary: string) {
+  }, 
+
+  getUserInfoWithKakao(summary: string){
     return applyDecorators(
+      ApiBearerAuth(),
       ApiOperation({
-        summary,
-        description: '카카오 로그인 성공시 리다이렉트됩니다.',
+        description: '카카오 로그인 사용자 정보를 가져옵니다',
       }),
-      ApiCreatedResponse({
-        type: KakaoLoginResponseBodyDto,
+      ApiResponse({
+        status: 401,
+        description:
+          '1. 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
       }),
-      ApiOkResponse({status: 400, description: '존재하지 않는 사용자입니다.'}),
     );
   },
+
+  getUserInfoWithGoogle(summary: string){
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({
+        description: '구글 로그인 사용자 정보를 가져옵니다',
+      }),
+      ApiResponse({
+        status: 401,
+        description:
+          '1. 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
+      }),
+    );
+  },
+
 };
