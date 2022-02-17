@@ -125,32 +125,32 @@ export const docs: SwaggerMethodDoc<AuthController> = {
     );
   }, 
 
-  getUserInfoWithKakao(summary: string){
-    return applyDecorators(
-      ApiBearerAuth(),
-      ApiOperation({
-        description: '카카오 로그인 사용자 정보를 가져옵니다',
-      }),
-      ApiResponse({
-        status: 401,
-        description:
-          '1. 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
-      }),
-    );
-  },
+  // getUserInfoWithKakao(summary: string){
+  //   return applyDecorators(
+  //     ApiBearerAuth(),
+  //     ApiOperation({
+  //       description: '카카오 로그인 사용자 정보를 가져옵니다',
+  //     }),
+  //     ApiResponse({
+  //       status: 401,
+  //       description:
+  //         '1. 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
+  //     }),
+  //   );
+  // },
 
-  getUserInfoWithGoogle(summary: string){
-    return applyDecorators(
-      ApiBearerAuth(),
-      ApiOperation({
-        description: '구글 로그인 사용자 정보를 가져옵니다',
-      }),
-      ApiResponse({
-        status: 401,
-        description:
-          '1. 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
-      }),
-    );
-  },
+  // getUserInfoWithGoogle(summary: string){
+  //   return applyDecorators(
+  //     ApiBearerAuth(),
+  //     ApiOperation({
+  //       description: '구글 로그인 사용자 정보를 가져옵니다',
+  //     }),
+  //     ApiResponse({
+  //       status: 401,
+  //       description:
+  //         '1. 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
+  //     }),
+  //   );
+  // },
 
 };
