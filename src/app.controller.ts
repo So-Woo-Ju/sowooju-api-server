@@ -1,5 +1,6 @@
-import {Controller, Get} from '@nestjs/common';
+import {Controller, Get, HttpException, InternalServerErrorException} from '@nestjs/common';
 import {AppService} from './app.service';
+import {Err} from './common/error';
 
 @Controller()
 export class AppController {
@@ -8,10 +9,5 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
-  }
-
-  @Get('error')
-  getError() {
-    throw new Error('this is error!!');
   }
 }
