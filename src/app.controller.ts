@@ -13,5 +13,5 @@ export class AppController {
   @Get('error')
   getError() {
     throw new Error('this is error!!');
-  } 
+  }
 }

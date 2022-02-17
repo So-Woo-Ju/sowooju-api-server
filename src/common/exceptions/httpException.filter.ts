@@ -15,7 +15,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       | {message: any; code: number}
       | {error: string; message: string[]; code: number | null};
     const webhook = new IncomingWebhook(SentryConfig.webhook);
-    
+
     Sentry.captureException(exception);
     if (err.code) {
       return response.status(status).json({
