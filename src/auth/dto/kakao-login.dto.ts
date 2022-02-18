@@ -3,9 +3,8 @@ import {IsEmail, IsString} from 'class-validator';
 import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
 export class KakaoLoginDto {
-  @IsEmail()
-  @ApiProperty({example: 'sowoojuenterprise@naver.com'})
-  kakaoAccount: string;
+  @ApiProperty({example: '123456789'})
+  kakaoToken: string;
 }
 
 export class KakaoLoginResponseDto {

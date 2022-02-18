@@ -3,9 +3,8 @@ import {IsEmail, IsString} from 'class-validator';
 import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
 export class GoogleLoginDto {
-  @IsEmail()
-  @ApiProperty({example: 'sowoojuenterprise@gmail.com'})
-  googleAccount: string;
+  @ApiProperty({example: '123456789'})
+  googleToken: string;
 }
 
 export class GoogleLoginResponseDto {
