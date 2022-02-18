@@ -117,7 +117,7 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
       ApiResponse({
         status: 401,
-        description: '1. 토큰이 만료되었습니다.',
+        description: '1. 유효하지 않은 토큰입니다.',
       }),
     );
   },
@@ -130,7 +130,7 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       }),
       ApiResponse({
         status: 401,
-        description: '1. 토큰이 만료되었습니다.',
+        description: '1. 유효하지 않은 토큰입니다.',
       }),
     );
   },
