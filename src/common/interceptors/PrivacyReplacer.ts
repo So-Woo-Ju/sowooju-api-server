@@ -8,9 +8,6 @@ export class PrivacyReplacer {
       if ('password' in body) {
         body.password = '<privacy-masked>';
       }
-      if ('newPassword' in body) {
-        body.newPassword = '<privacy-masked>';
-      }
     }
 
     return body;
