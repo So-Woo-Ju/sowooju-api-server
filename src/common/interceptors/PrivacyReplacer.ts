@@ -2,7 +2,7 @@ import {Injectable} from '@nestjs/common';
 
 @Injectable()
 export class PrivacyReplacer {
-  replaceRequestBody(body: any) {
+  replaceRequestBody(body: Record<string, any>) {
     if (body == null) return;
     if (typeof body === 'object') {
       if ('password' in body) {
@@ -12,7 +12,7 @@ export class PrivacyReplacer {
     return body;
   }
 
-  replaceResponseBody(body: any) {
+  replaceResponseBody(body: Record<string, any>) {
     if (body == null) return;
     if (typeof body === 'object') {
       if ('refreshToken' in body) {

@@ -5,6 +5,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {v4 as uuid} from 'uuid';
 import {PrivacyReplacer} from './PrivacyReplacer';
 import {clone} from 'ramda';
+import {Err} from 'src/common/error';
 
 @Injectable()
 export class LogInterceptor implements NestInterceptor {
@@ -26,7 +27,8 @@ export class LogInterceptor implements NestInterceptor {
     );
   }
 
-  private logResponse(context: ExecutionContext, executionId: string, data: any) {
+  private logResponse(context: ExecutionContext, executionId: string, data: Record<string, any>) {
+    console.log(typeof Err);
     const response = context.switchToHttp().getResponse<Response>();
     const loggingParams: Record<string, any> = {
       executionId,
