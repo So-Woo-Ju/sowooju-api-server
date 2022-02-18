@@ -3,6 +3,7 @@ import {
   HttpException,
   Injectable,
   InternalServerErrorException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import {InjectRepository} from '@nestjs/typeorm';
 import {Repository} from 'typeorm';
@@ -221,7 +222,7 @@ export class AuthService {
           return response.data.id;
         }),
         catchError(() => {
-          throw new BadRequestException(Err.TOKEN.INVALID_TOKEN);
+          throw new UnauthorizedException(Err.TOKEN.INVALID_TOKEN);
         }),
       ),
     );
@@ -237,8 +238,14 @@ export class AuthService {
     const clientId = this.configService.get('google').googleClientId;
     const oAuth2Client = new OAuth2Client(clientId);
 
-    const googleInfo = await oAuth2Client.verifyIdToken({idToken: googleLoginDto.googleToken});
-    const googleAccount = googleInfo.getPayload().sub;
+    const googleAccount = await oAuth2Client
+      .verifyIdToken({idToken: googleLoginDto.googleToken})
+      .then(result => {
+        return result.getPayload().sub;
+      })
+      .catch(error => {
+        throw new UnauthorizedException(Err.TOKEN.INVALID_TOKEN);
+      });
 
     let user = await this.validateGoogle(googleAccount);
     if (user === null) {
