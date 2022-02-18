@@ -20,7 +20,7 @@ const ormconfig: TypeOrmModuleOptions = {
   timezone: 'Z',
   charset: 'utf8mb4',
   synchronize: false,
-  logging: true,
+  logging: false,
 };
 
 export = ormconfig;

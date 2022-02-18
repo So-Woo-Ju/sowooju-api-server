@@ -9,7 +9,6 @@ export class PrivacyReplacer {
         body.password = '<privacy-masked>';
       }
     }
-
     return body;
   }
 
@@ -26,7 +25,6 @@ export class PrivacyReplacer {
         body.tokenExp = '<privacy-masked>';
       }
     }
-
     return body;
   }
 
