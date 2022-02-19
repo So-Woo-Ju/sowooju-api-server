@@ -59,4 +59,4 @@ export const Err = {
       message: '메일 전송 중 에러가 발생하였습니다.',
     },
   },
-};
+} as const;

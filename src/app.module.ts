@@ -11,6 +11,11 @@ import mailConfig from './common/config/mail.config';
 import authConfig from './common/config/auth.config';
 import googleConfig from './common/config/google.config';
 import sentryConfig from './common/config/sentry.config';
+import {APP_FILTER, APP_INTERCEPTOR} from '@nestjs/core';
+import {LogInterceptor} from './common/interceptors/log.interceptor';
+import {PrivacyReplacer} from './common/interceptors/PrivacyReplacer';
+import {HttpExceptionFilter} from './common/exceptions/httpException.filter';
+import {TransformInterceptor} from './common/interceptors/transform.interceptor';
 
 @Module({
   imports: [
@@ -27,6 +32,21 @@ import sentryConfig from './common/config/sentry.config';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    PrivacyReplacer,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LogInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}
