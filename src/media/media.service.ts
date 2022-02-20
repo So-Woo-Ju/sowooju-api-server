@@ -16,7 +16,11 @@ export class MediaService {
     private readonly userService: UserService,
   ) {}
 
-  async getPresignedUrl(contentType: string, bucketName: string, fileName: string) {
+  async getPresignedUrl(
+    contentType: string,
+    bucketName: string,
+    fileName: string,
+  ): Promise<string> {
     const s3 = this.configService.get('s3');
 
     const params = {
@@ -35,7 +39,7 @@ export class MediaService {
     }
   }
 
-  async getVideoPresignedUrl(userId: number) {
+  async getVideoPresignedUrl(userId: number): Promise<string> {
     const existingUser = await this.userService.findUserById(userId);
     if (!existingUser) {
       throw new BadRequestException(Err.USER.NOT_FOUND);
@@ -50,7 +54,7 @@ export class MediaService {
     return videoS3Url;
   }
 
-  async getCaptioPresignedUrl(userId: number) {
+  async getCaptioPresignedUrl(userId: number): Promise<string> {
     const captionS3BucketName = this.configService.get('s3-bucket').captionS3BucketName;
     const contentType = '적절한 값으로 변경해야합니다.';
     const date = format(new Date(), 'yyyyMMddmmss');
@@ -60,7 +64,7 @@ export class MediaService {
     return captionS3Url;
   }
 
-  async getTextPresignedUrl(userId: number) {
+  async getTextPresignedUrl(userId: number): Promise<string> {
     const textS3BucketName = this.configService.get('s3-bucket').textS3BucketName;
     const contentType = '적절한 값으로 변경해야합니다.';
     const date = format(new Date(), 'yyyyMMddmmss');
@@ -70,7 +74,7 @@ export class MediaService {
     return textS3Url;
   }
 
-  async getThumbnailPresignedUrl(userId: number) {
+  async getThumbnailPresignedUrl(userId: number): Promise<string> {
     const thumbnailS3BucketName = this.configService.get('s3-bucket').thumbnailS3BucketName;
     const contentType = '적절한 값으로 변경해야합니다.';
     const date = format(new Date(), 'yyyyMMddmmss');
