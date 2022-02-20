@@ -1,15 +1,18 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, UseGuards} from '@nestjs/common';
 import {MediaService} from './media.service';
-import {CreateMediaDto} from './dto/create-media.dto';
-import {UpdateMediaDto} from './dto/update-media.dto';
+import {GetPresignedUrlDto} from './dto/get-presigned-url.dto';
+import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
+import {AuthUser} from 'src/common/decorators/user.decorator';
+import {JwtUser} from 'src/common/types';
 
 @Controller('media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
-  @Post()
-  create(@Body() createMediaDto: CreateMediaDto) {
-    return this.mediaService.create(createMediaDto);
+  @UseGuards(JwtAuthGuard)
+  @Post('video/presigned-url')
+  getVideoPresignedUrl(@AuthUser() user: JwtUser, @Body() getPresignedUrlDto: GetPresignedUrlDto) {
+    return this.mediaService.getVideoPresignedUrl(user.id, getPresignedUrlDto);
   }
 
   @Get()
@@ -20,11 +23,6 @@ export class MediaController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.mediaService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMediaDto: UpdateMediaDto) {
-    return this.mediaService.update(+id, updateMediaDto);
   }
 
   @Delete(':id')
