@@ -1,6 +1,5 @@
 import {Controller, Get, Post, Body, Patch, Param, Delete, UseGuards} from '@nestjs/common';
 import {MediaService} from './media.service';
-import {GetPresignedUrlDto} from './dto/get-presigned-url.dto';
 import {JwtAuthGuard} from 'src/auth/guard/jwt-auth.guard';
 import {AuthUser} from 'src/common/decorators/user.decorator';
 import {JwtUser} from 'src/common/types';
@@ -10,9 +9,9 @@ export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
   @UseGuards(JwtAuthGuard)
-  @Post('video/presigned-url')
-  getVideoPresignedUrl(@AuthUser() user: JwtUser, @Body() getPresignedUrlDto: GetPresignedUrlDto) {
-    return this.mediaService.getVideoPresignedUrl(user.id, getPresignedUrlDto);
+  @Get('video/presigned-url')
+  getVideoPresignedUrl(@AuthUser() user: JwtUser) {
+    return this.mediaService.getVideoPresignedUrl(user.id);
   }
 
   @Get()

@@ -4,9 +4,10 @@ import {MediaController} from './media.controller';
 import {TypeOrmModule} from '@nestjs/typeorm';
 import {Media} from './entities/media.entity';
 import {ConfigModule} from '@nestjs/config';
+import {UserModule} from './../user/user.module';
 
 @Module({
-  imports: [ConfigModule, TypeOrmModule.forFeature([Media])],
+  imports: [UserModule, ConfigModule, TypeOrmModule.forFeature([Media])],
   controllers: [MediaController],
   providers: [MediaService],
 })
