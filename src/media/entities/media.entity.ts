@@ -37,7 +37,7 @@ export class Media extends BaseEntity {
 
   @Column({nullable: true})
   @ApiProperty({description: '텍스트 파일의 URL'})
-  TextUrl: string;
+  textUrl: string;
 
   @Column({nullable: true})
   @ApiProperty({description: '썸네일 파일의 URL'})
