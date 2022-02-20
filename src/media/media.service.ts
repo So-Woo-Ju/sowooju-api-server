@@ -31,7 +31,7 @@ export class MediaService {
     return s3Url;
   }
 
-  async giveVideoPresignedUrl(userId: number, getPresignedUrlDto: GetPresignedUrlDto) {
+  async getVideoPresignedUrl(userId: number, getPresignedUrlDto: GetPresignedUrlDto) {
     /*
     TODO content type이 video type과 맞지 않는 경우 에러 핸들링
     */
@@ -45,7 +45,7 @@ export class MediaService {
     return videoS3Url;
   }
 
-  async giveCaptioPresignedUrl(userId: number, getPresignedUrlDto: GetPresignedUrlDto) {
+  async getCaptioPresignedUrl(userId: number, getPresignedUrlDto: GetPresignedUrlDto) {
     /*
     TODO content type이 caption type과 맞지 않는 경우 에러 핸들링
     */
@@ -59,7 +59,7 @@ export class MediaService {
     return captionS3Url;
   }
 
-  async giveTextPresignedUrl(userId: number, getPresignedUrlDto: GetPresignedUrlDto) {
+  async getTextPresignedUrl(userId: number, getPresignedUrlDto: GetPresignedUrlDto) {
     /*
     TODO content type이 text type과 맞지 않는 경우 에러 핸들링
     */
@@ -73,7 +73,7 @@ export class MediaService {
     return textS3Url;
   }
 
-  async giveThumbnailPresignedUrl(userId: number, getPresignedUrlDto: GetPresignedUrlDto) {
+  async getThumbnailPresignedUrl(userId: number, getPresignedUrlDto: GetPresignedUrlDto) {
     /*
     TODO content type이 thumbnail type과 맞지 않는 경우 에러 핸들링
     */
