@@ -36,8 +36,12 @@ export class Media extends BaseEntity {
   captionUrl: string;
 
   @Column({nullable: true})
-  @ApiProperty({description: '자막 텍스트의 URL'})
-  captionTextUrl: string;
+  @ApiProperty({description: '텍스트 파일의 URL'})
+  TextUrl: string;
+
+  @Column({nullable: true})
+  @ApiProperty({description: '썸네일 파일의 URL'})
+  thumbnailUrl: string;
 
   /* Relations */
 
