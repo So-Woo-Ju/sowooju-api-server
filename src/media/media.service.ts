@@ -6,6 +6,7 @@ import {Repository} from 'typeorm';
 import {UserService} from './../user/user.service';
 import {Err} from './../common/error';
 import format from 'date-fns/format';
+import {VIDEO_CONTENT_TYPE, S3_ACL, S3_PRESIGNED_URL_EXPIRES} from './../constants';
 
 @Injectable()
 export class MediaService {
@@ -26,62 +27,59 @@ export class MediaService {
     const params = {
       Bucket: bucketName,
       Key: fileName,
-      Expires: 3600,
       ContentType: contentType,
-      ACL: 'public-read',
+      Expires: S3_PRESIGNED_URL_EXPIRES,
+      ACL: S3_ACL,
     };
 
     try {
-      const s3Url = await s3.getSignedUrlPromise('putObject', params);
-      return s3Url;
+      return await s3.getSignedUrlPromise('putObject', params);
     } catch (error) {
       throw new InternalServerErrorException(Err.SERVER.UNEXPECTED_ERROR);
     }
   }
 
-  async getVideoPresignedUrl(userId: number): Promise<string> {
+  async getVideoPresignedUrl(userId: number) {
     const existingUser = await this.userService.findUserById(userId);
     if (!existingUser) {
       throw new BadRequestException(Err.USER.NOT_FOUND);
     }
 
     const videoS3BucketName = await this.configService.get('s3-bucket').videoS3BucketName;
-    const contentType = 'mp4';
+    const contentType = VIDEO_CONTENT_TYPE;
     const date = format(new Date(), 'yyyyMMddmmss');
     const fileName = `${userId}-${date}.${contentType}`;
-    const videoS3Url = await this.getPresignedUrl(contentType, videoS3BucketName, fileName);
 
-    return videoS3Url;
+    return {videoS3Url: this.getPresignedUrl(contentType, videoS3BucketName, fileName)};
   }
 
-  async getCaptioPresignedUrl(userId: number): Promise<string> {
+  async getCaptioPresignedUrl(userId: number) {
     const captionS3BucketName = this.configService.get('s3-bucket').captionS3BucketName;
     const contentType = '적절한 값으로 변경해야합니다.';
     const date = format(new Date(), 'yyyyMMddmmss');
     const fileName = `${userId}-${date}.${contentType}`;
-    const captionS3Url = await this.getPresignedUrl(contentType, captionS3BucketName, fileName);
 
-    return captionS3Url;
+    return {captionS3Url: this.getPresignedUrl(contentType, captionS3BucketName, fileName)};
   }
 
-  async getTextPresignedUrl(userId: number): Promise<string> {
+  async getTextPresignedUrl(userId: number) {
     const textS3BucketName = this.configService.get('s3-bucket').textS3BucketName;
     const contentType = '적절한 값으로 변경해야합니다.';
     const date = format(new Date(), 'yyyyMMddmmss');
     const fileName = `${userId}-${date}.${contentType}`;
-    const textS3Url = await this.getPresignedUrl(contentType, textS3BucketName, fileName);
 
-    return textS3Url;
+    return {textS3Url: this.getPresignedUrl(contentType, textS3BucketName, fileName)};
   }
 
-  async getThumbnailPresignedUrl(userId: number): Promise<string> {
+  async getThumbnailPresignedUrl(userId: number) {
     const thumbnailS3BucketName = this.configService.get('s3-bucket').thumbnailS3BucketName;
     const contentType = '적절한 값으로 변경해야합니다.';
     const date = format(new Date(), 'yyyyMMddmmss');
     const fileName = `${userId}-${date}.${contentType}`;
-    const thumbnailS3Url = await this.getPresignedUrl(contentType, thumbnailS3BucketName, fileName);
 
-    return thumbnailS3Url;
+    return {
+      thumbnailS3Url: this.getPresignedUrl(contentType, thumbnailS3BucketName, fileName),
+    };
   }
 
   findAll() {
