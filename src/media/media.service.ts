@@ -7,6 +7,7 @@ import {UserService} from './../user/user.service';
 import {Err} from './../common/error';
 import format from 'date-fns/format';
 import {VIDEO_CONTENT_TYPE, S3_ACL, S3_PRESIGNED_URL_EXPIRES} from './../constants';
+import {GetVideoPresignedUrlResponseDto} from './dto/get-video-presigned-url.dto';
 
 @Injectable()
 export class MediaService {
@@ -39,7 +40,7 @@ export class MediaService {
     }
   }
 
-  async getVideoPresignedUrl(userId: number) {
+  async getVideoPresignedUrl(userId: number): Promise<GetVideoPresignedUrlResponseDto> {
     const existingUser = await this.userService.findUserById(userId);
     if (!existingUser) {
       throw new BadRequestException(Err.USER.NOT_FOUND);
