@@ -16,11 +16,21 @@ import {LogInterceptor} from './common/interceptors/log.interceptor';
 import {PrivacyReplacer} from './common/interceptors/PrivacyReplacer';
 import {HttpExceptionFilter} from './common/exceptions/httpException.filter';
 import {TransformInterceptor} from './common/interceptors/transform.interceptor';
+import s3Confilg from './common/config/s3.confilg';
+import s3BucketConfig from './common/config/s3-bucket.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [databaseConfig, mailConfig, authConfig, googleConfig, sentryConfig],
+      load: [
+        databaseConfig,
+        mailConfig,
+        authConfig,
+        googleConfig,
+        sentryConfig,
+        s3Confilg,
+        s3BucketConfig,
+      ],
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],

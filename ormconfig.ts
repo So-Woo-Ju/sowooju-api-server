@@ -14,7 +14,7 @@ const ormconfig: TypeOrmModuleOptions = {
   entities: [path.join(__dirname, '**/*.entity{.ts,.js}')],
   migrations: [__dirname + '/src/migrations/*.ts'],
   cli: {
-    migrationsDir: '/src/migrations',
+    migrationsDir: __dirname + '/src/migrations',
   },
   autoLoadEntities: true,
   timezone: 'Z',
@@ -22,5 +22,4 @@ const ormconfig: TypeOrmModuleOptions = {
   synchronize: false,
   logging: false,
 };
-
 export = ormconfig;
