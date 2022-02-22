@@ -112,7 +112,12 @@ export const docs: SwaggerMethodDoc<AuthController> = {
   signInWithGoogle(summary: string) {
     return applyDecorators(
       ApiOperation({
-        description: '구글 로그인을 진행합니다',
+        summary,
+        description: '구글 로그인을 진행합니다. googleToken은 google id_token입니다.',
+      }),
+      ApiResponse({
+        status: 401,
+        description: '유효하지 않은 토큰입니다.',
       }),
     );
   },
@@ -120,7 +125,12 @@ export const docs: SwaggerMethodDoc<AuthController> = {
   signInWithKakao(summary: string) {
     return applyDecorators(
       ApiOperation({
-        description: '카카오 로그인을 진행합니다',
+        summary,
+        description: '카카오 로그인을 진행합니다. kakaoToken은 kakao access_token입니다.',
+      }),
+      ApiResponse({
+        status: 401,
+        description: '유효하지 않은 토큰입니다.',
       }),
     );
   },

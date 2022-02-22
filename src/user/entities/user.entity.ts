@@ -4,7 +4,7 @@ import {Media} from './../../media/entities/media.entity';
 import {BaseEntity} from './../../common/entity/base-entity.entity';
 import * as bcrypt from 'bcrypt';
 import {BadRequestException} from '@nestjs/common';
-import {Err} from 'src/common/error';
+import {Err} from './../../common/error';
 
 @Entity()
 export class User extends BaseEntity {

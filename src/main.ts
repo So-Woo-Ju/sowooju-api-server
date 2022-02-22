@@ -18,8 +18,6 @@ async function bootstrap() {
   app.setGlobalPrefix(API_PREFIX);
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe({transform: true}));
-  app.useGlobalFilters(new HttpExceptionFilter());
-  app.useGlobalInterceptors(new TransformInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('SoWooJu API docs')
