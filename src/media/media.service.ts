@@ -6,7 +6,14 @@ import {Repository} from 'typeorm';
 import {UserService} from './../user/user.service';
 import {Err} from './../common/error';
 import format from 'date-fns/format';
-import {VIDEO_CONTENT_TYPE, S3_ACL, S3_PRESIGNED_URL_EXPIRES} from './../constants';
+import {
+  VIDEO_CONTENT_TYPE,
+  S3_ACL,
+  S3_PRESIGNED_URL_EXPIRES,
+  CAPTION_CONTENT_TYPE,
+  TEXT_CONTENT_TYPE,
+  THUMBNAIL_CONTENT_TYPE,
+} from './../constants';
 import {GetVideoPresignedUrlResponseDto} from './dto/get-video-presigned-url.dto';
 
 @Injectable()
@@ -56,7 +63,7 @@ export class MediaService {
 
   async getCaptioPresignedUrl(userId: number) {
     const captionS3BucketName = this.configService.get('s3-bucket').captionS3BucketName;
-    const contentType = '적절한 값으로 변경해야합니다.';
+    const contentType = CAPTION_CONTENT_TYPE;
     const date = format(new Date(), 'yyyyMMddmmss');
     const fileName = `${userId}-${date}.${contentType}`;
 
@@ -65,7 +72,7 @@ export class MediaService {
 
   async getTextPresignedUrl(userId: number) {
     const textS3BucketName = this.configService.get('s3-bucket').textS3BucketName;
-    const contentType = '적절한 값으로 변경해야합니다.';
+    const contentType = TEXT_CONTENT_TYPE;
     const date = format(new Date(), 'yyyyMMddmmss');
     const fileName = `${userId}-${date}.${contentType}`;
 
@@ -74,7 +81,7 @@ export class MediaService {
 
   async getThumbnailPresignedUrl(userId: number) {
     const thumbnailS3BucketName = this.configService.get('s3-bucket').thumbnailS3BucketName;
-    const contentType = '적절한 값으로 변경해야합니다.';
+    const contentType = THUMBNAIL_CONTENT_TYPE;
     const date = format(new Date(), 'yyyyMMddmmss');
     const fileName = `${userId}-${date}.${contentType}`;
 
