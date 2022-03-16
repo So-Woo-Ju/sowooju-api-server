@@ -3,7 +3,7 @@ import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 
 export class GetVideoPresignedUrlResponseDto {
   @ApiProperty({example: 'https://bucket-name.s3-accelerate.amazonaws.com...'})
-  videoS3Url: Promise<string>;
+  videoS3Url: string;
 }
 
 export class GetVideoPresignedUrlResponseBodyDto extends BaseResponseDto {
