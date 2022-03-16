@@ -6,4 +6,4 @@ export const DOC_PATH = API_PREFIX + '/docs';
 export const AWS_S3 = 's3';
 export const S3_ACL = 'public-read';
 export const S3_PRESIGNED_URL_EXPIRES = 3600;
-export const VIDEO_CONTENT_TYPE = 'mp4';
+export const VIDEO_FILE_TYPE = 'mp4';
