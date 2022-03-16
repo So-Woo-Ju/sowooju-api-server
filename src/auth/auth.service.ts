@@ -231,7 +231,10 @@ export class AuthService {
     if (user === null) {
       user = await this.signupWithKakao(kakaoAccount);
     }
-    return await this.createAccessToken(user.id);
+
+    const accessToken = await this.createAccessToken(user.id);
+    const {refreshToken, tokenExp} = await this.createRefreshToken(user.id);
+    return {accessToken, refreshToken, tokenExp};
   }
 
   async getUserInfoWithGoogle(googleLoginDto: GoogleLoginDto): Promise<any> {
@@ -252,6 +255,8 @@ export class AuthService {
       user = await this.signupWithGoogle(googleAccount);
     }
 
-    return await this.createAccessToken(user.id);
+    const accessToken = await this.createAccessToken(user.id);
+    const {refreshToken, tokenExp} = await this.createRefreshToken(user.id);
+    return {accessToken, refreshToken, tokenExp};
   }
 }
