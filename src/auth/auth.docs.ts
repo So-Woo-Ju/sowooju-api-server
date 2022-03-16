@@ -5,7 +5,6 @@ import {
   ApiBody,
   ApiBearerAuth,
   ApiResponse,
-  ApiOkResponse,
 } from '@nestjs/swagger';
 import {AuthController} from './auth.controller';
 import {SignUpResponseBodyDto} from './dto/signup.dto';
@@ -14,8 +13,6 @@ import {VerifyCodeResponseBodyDto} from './dto/verify-code.dto';
 import {SwaggerMethodDoc} from 'src/common/types';
 import {LoginResponseBodyDto, LoginDto} from './dto/login.dto';
 import {CreateAccessTokenResponseBodyDto} from './dto/create-access-token.dto';
-import {KakaoLoginDto, KakaoLoginResponseBodyDto} from './dto/kakao-login.dto';
-import {GoogleLoginDto, GoogleLoginResponseBodyDto} from './dto/google-login.dto';
 
 export const docs: SwaggerMethodDoc<AuthController> = {
   sendEmail(summary: string) {
@@ -115,6 +112,9 @@ export const docs: SwaggerMethodDoc<AuthController> = {
         summary,
         description: '구글 로그인을 진행합니다. googleToken은 google id_token입니다.',
       }),
+      ApiCreatedResponse({
+        type: LoginResponseBodyDto,
+      }),
       ApiResponse({
         status: 401,
         description: '유효하지 않은 토큰입니다.',
@@ -127,6 +127,9 @@ export const docs: SwaggerMethodDoc<AuthController> = {
       ApiOperation({
         summary,
         description: '카카오 로그인을 진행합니다. kakaoToken은 kakao access_token입니다.',
+      }),
+      ApiCreatedResponse({
+        type: LoginResponseBodyDto,
       }),
       ApiResponse({
         status: 401,
