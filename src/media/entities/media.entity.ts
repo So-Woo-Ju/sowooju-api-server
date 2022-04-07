@@ -19,11 +19,11 @@ export class Media extends BaseEntity {
   @ApiProperty({description: '영상의 제목'})
   videoName: string;
 
-  @Column()
+  @Column({type: 'enum', enum: VideoType})
   @ApiProperty({description: '영상의 타입'})
   videoType: VideoType;
 
-  @Column()
+  @Column({type: 'enum', enum: VideoLanguage})
   @ApiProperty({description: '자막의 언어'})
   videoLanguage: VideoLanguage;
 
