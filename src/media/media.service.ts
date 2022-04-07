@@ -50,24 +50,6 @@ export class MediaService {
     return {videoS3Url: await this.getPresignedUrl(fileType, videoS3BucketName, fileName)};
   }
 
-  async getCaptioPresignedUrl(userId: number) {
-    const captionS3BucketName = this.configService.get('s3-bucket').captionS3BucketName;
-    const fileType = '적절한 값으로 변경해야합니다.';
-    const date = format(new Date(), 'yyyyMMddmmss');
-    const fileName = `${userId}-${date}.${fileType}`;
-
-    return {captionS3Url: this.getPresignedUrl(fileType, captionS3BucketName, fileName)};
-  }
-
-  async getTextPresignedUrl(userId: number) {
-    const textS3BucketName = this.configService.get('s3-bucket').textS3BucketName;
-    const fileType = '적절한 값으로 변경해야합니다.';
-    const date = format(new Date(), 'yyyyMMddmmss');
-    const fileName = `${userId}-${date}.${fileType}`;
-
-    return {textS3Url: this.getPresignedUrl(fileType, textS3BucketName, fileName)};
-  }
-
   async getThumbnailPresignedUrl(userId: number) {
     const thumbnailS3BucketName = this.configService.get('s3-bucket').thumbnailS3BucketName;
     const fileType = '적절한 값으로 변경해야합니다.';
@@ -79,15 +61,12 @@ export class MediaService {
     };
   }
 
-  findAll() {
-    return `This action returns all media`;
-  }
+  async getMyMedias(userId: number) {
+    const existingUser = await this.userService.findUserById(userId);
+    if (!existingUser) {
+      throw new BadRequestException(Err.USER.NOT_FOUND);
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} media`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} media`;
+    return {medias: await this.mediaRepository.find({user: existingUser})};
   }
 }
