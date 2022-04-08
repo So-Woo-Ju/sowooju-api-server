@@ -16,31 +16,43 @@ export enum VideoLanguage {
 @Entity()
 export class Media extends BaseEntity {
   @Column()
-  @ApiProperty({description: '영상의 제목'})
+  @ApiProperty({description: '영상의 제목', example: '비디오'})
   videoName: string;
 
-  @Column()
-  @ApiProperty({description: '영상의 타입'})
+  @Column({type: 'enum', enum: VideoType})
+  @ApiProperty({description: '영상의 타입', example: 'LOCAL'})
   videoType: VideoType;
 
-  @Column()
-  @ApiProperty({description: '자막의 언어'})
+  @Column({type: 'enum', enum: VideoLanguage})
+  @ApiProperty({description: '자막의 언어', example: 'KOR'})
   videoLanguage: VideoLanguage;
 
   @Column({nullable: true})
-  @ApiProperty({description: '영상의 URL'})
+  @ApiProperty({
+    description: '영상의 URL',
+    example: 'https://bucket-name.s3-accelerate.amazonaws.com...',
+  })
   videoUrl: string;
 
   @Column({nullable: true})
-  @ApiProperty({description: '자막의 URL'})
+  @ApiProperty({
+    description: '자막의 URL',
+    example: 'https://bucket-name.s3-accelerate.amazonaws.com...',
+  })
   captionUrl: string;
 
   @Column({nullable: true})
-  @ApiProperty({description: '텍스트 파일의 URL'})
+  @ApiProperty({
+    description: '텍스트 파일의 URL',
+    example: 'https://bucket-name.s3-accelerate.amazonaws.com...',
+  })
   textUrl: string;
 
   @Column({nullable: true})
-  @ApiProperty({description: '썸네일 파일의 URL'})
+  @ApiProperty({
+    description: '썸네일 파일의 URL',
+    example: 'https://bucket-name.s3-accelerate.amazonaws.com...',
+  })
   thumbnailUrl: string;
 
   /* Relations */
