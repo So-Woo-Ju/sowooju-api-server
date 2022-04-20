@@ -18,6 +18,8 @@ import {HttpExceptionFilter} from './common/exceptions/httpException.filter';
 import {TransformInterceptor} from './common/interceptors/transform.interceptor';
 import s3Confilg from './common/config/s3.confilg';
 import s3BucketConfig from './common/config/s3-bucket.config';
+import {BullModule} from '@nestjs/bull';
+import {MediaConsumer} from './media/media.consumer';
 
 @Module({
   imports: [
@@ -40,11 +42,19 @@ import s3BucketConfig from './common/config/s3-bucket.config';
     UserModule,
     MediaModule,
     AuthModule,
+    BullModule.registerQueue({
+      name: 'messageQueue',
+      redis: {
+        host: 'localhost',
+        port: 6379,
+      },
+    }),
   ],
   controllers: [AppController],
   providers: [
     AppService,
     PrivacyReplacer,
+    MediaConsumer,
     {
       provide: APP_INTERCEPTOR,
       useClass: LogInterceptor,
