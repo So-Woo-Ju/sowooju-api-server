@@ -18,7 +18,6 @@ import {HttpExceptionFilter} from './common/exceptions/httpException.filter';
 import {TransformInterceptor} from './common/interceptors/transform.interceptor';
 import s3Confilg from './common/config/s3.confilg';
 import s3BucketConfig from './common/config/s3-bucket.config';
-import {BullModule, BullModuleOptions} from '@nestjs/bull';
 import redisConfig from './common/config/redis.config';
 
 @Module({
@@ -45,13 +44,6 @@ import redisConfig from './common/config/redis.config';
     UserModule,
     MediaModule,
     AuthModule,
-    BullModule.registerQueueAsync({
-      name: 'messageQueue',
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService): Promise<BullModuleOptions> =>
-        configService.get('redis'),
-    }),
   ],
   controllers: [AppController],
   providers: [
@@ -70,6 +62,5 @@ import redisConfig from './common/config/redis.config';
       useClass: HttpExceptionFilter,
     },
   ],
-  exports: [BullModule],
 })
 export class AppModule {}
