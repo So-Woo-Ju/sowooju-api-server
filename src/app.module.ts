@@ -18,8 +18,8 @@ import {HttpExceptionFilter} from './common/exceptions/httpException.filter';
 import {TransformInterceptor} from './common/interceptors/transform.interceptor';
 import s3Confilg from './common/config/s3.confilg';
 import s3BucketConfig from './common/config/s3-bucket.config';
-import {BullModule} from '@nestjs/bull';
-import {MediaConsumer} from './media/media.consumer';
+import {BullModule, BullModuleOptions} from '@nestjs/bull';
+import redisConfig from './common/config/redis.config';
 
 @Module({
   imports: [
@@ -32,6 +32,7 @@ import {MediaConsumer} from './media/media.consumer';
         sentryConfig,
         s3Confilg,
         s3BucketConfig,
+        redisConfig,
       ],
     }),
     TypeOrmModule.forRootAsync({
@@ -42,19 +43,18 @@ import {MediaConsumer} from './media/media.consumer';
     UserModule,
     MediaModule,
     AuthModule,
-    BullModule.registerQueue({
+    BullModule.registerQueueAsync({
       name: 'messageQueue',
-      redis: {
-        host: 'localhost',
-        port: 6379,
-      },
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService): Promise<BullModuleOptions> =>
+        configService.get('redis'),
     }),
   ],
   controllers: [AppController],
   providers: [
     AppService,
     PrivacyReplacer,
-    MediaConsumer,
     {
       provide: APP_INTERCEPTOR,
       useClass: LogInterceptor,
@@ -68,5 +68,6 @@ import {MediaConsumer} from './media/media.consumer';
       useClass: HttpExceptionFilter,
     },
   ],
+  exports: [BullModule],
 })
 export class AppModule {}
