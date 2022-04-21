@@ -22,6 +22,5 @@ const ormconfig: TypeOrmModuleOptions = {
   synchronize: false,
   logging: false,
 };
-console.log(ormconfig);
 
 export = ormconfig;

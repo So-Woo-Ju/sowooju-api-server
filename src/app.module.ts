@@ -24,6 +24,8 @@ import redisConfig from './common/config/redis.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: process.env.NODE_ENV == 'dev' ? '.env.dev' : '.env.test',
+      ignoreEnvFile: process.env.NODE_ENV == 'prod',
       load: [
         databaseConfig,
         mailConfig,
