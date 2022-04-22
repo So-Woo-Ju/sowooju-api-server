@@ -11,3 +11,6 @@ export const VIDEO_FILE_TYPE = 'mp4';
 export const CAPTION_FILE_TYPE = 'vtt';
 export const TEXT_FILE_TYPE = 'json';
 export const THUMBNAIL_FILE_TYPE = 'jpg';
+
+// redis pub/sub 관련 상수
+export const PUB_SUB_CHANNEL = 'sowooju-media';

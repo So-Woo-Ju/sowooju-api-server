@@ -2,7 +2,7 @@ version: '3'
 
 services:
 
-  db:
+  mysql:
     image: 'mysql:8.0.27'
     ports:
       - 3309:3306
@@ -12,3 +12,9 @@ services:
     restart: always
     command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--default-authentication-plugin=mysql_native_password']
     platform: linux/x86_64
+  redis:
+    image: redis
+    container_name: redis
+    hostname: redis
+    ports:
+      - '6379:6379' 
