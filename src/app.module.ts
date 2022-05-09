@@ -22,6 +22,7 @@ import s3BucketConfig from './common/config/s3-bucket.config';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: process.env.NODE_ENV == 'dev' ? '.env.dev' : '.env.test',
       load: [
         databaseConfig,
         mailConfig,
