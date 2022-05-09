@@ -8,10 +8,10 @@ import {ConfigModule, ConfigService} from '@nestjs/config';
 import {MailSender} from './mail-sender';
 import {PassportModule} from '@nestjs/passport';
 import {JwtModule} from '@nestjs/jwt';
-import {LocalStrategy} from './strategy/local.strategy';
-import {JwtStrategy} from './strategy/jwt.strategy';
+import {LocalStrategy} from '../common/strategy/local.strategy';
+import {JwtStrategy} from '../common/strategy/jwt.strategy';
 import {User} from './../user/entities/user.entity';
-import {JwtRefreshStrategy} from './strategy/jwt-refresh.strategy';
+import {JwtRefreshStrategy} from '../common/strategy/jwt-refresh.strategy';
 import {HttpModule} from '@nestjs/axios';
 
 @Module({

@@ -6,7 +6,7 @@ import {
   Head,
 } from '@nestjs/common';
 import {AuthGuard} from '@nestjs/passport';
-import {Err} from './../../common/error';
+import {Err} from '../error';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {

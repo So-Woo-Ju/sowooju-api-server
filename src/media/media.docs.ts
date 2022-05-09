@@ -1,5 +1,11 @@
 import {applyDecorators} from '@nestjs/common';
-import {ApiOperation, ApiBearerAuth, ApiResponse, ApiOkResponse} from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiBearerAuth,
+  ApiResponse,
+  ApiOkResponse,
+  ApiExcludeEndpoint,
+} from '@nestjs/swagger';
 import {SwaggerMethodDoc} from 'src/common/types';
 import {getMyMediasResponseBodyDto} from './dto/get-my-medias.dto';
 import {GetVideoPresignedUrlResponseBodyDto} from './dto/get-video-presigned-url.dto';
@@ -42,5 +48,8 @@ export const docs: SwaggerMethodDoc<MediaController> = {
           '1. 토큰이 전송되지 않았습니다. \t\n 2. 유효하지 않은 토큰입니다. \t\n 3. 토큰이 만료되었습니다.',
       }),
     );
+  },
+  saveS3MediaUrl(summary: string) {
+    return applyDecorators(ApiExcludeEndpoint());
   },
 };
