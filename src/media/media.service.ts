@@ -9,6 +9,7 @@ import format from 'date-fns/format';
 import {S3_ACL, S3_PRESIGNED_URL_EXPIRES, VIDEO_FILE_TYPE} from './../constants';
 import {GetVideoPresignedUrlResponseDto} from './dto/get-video-presigned-url.dto';
 import {getMyMediasResponseDto} from './dto/get-my-medias.dto';
+import {SaveS3UrlResponseDto} from './dto/save-s3-url.dto';
 
 @Injectable()
 export class MediaService {
@@ -69,5 +70,24 @@ export class MediaService {
     }
 
     return {medias: await this.mediaRepository.find({user: existingUser})};
+  }
+
+  async saveS3MediaUrl(saveS3UrlResponseDto: SaveS3UrlResponseDto): Promise<string> {
+    const existingUser = await this.userService.findUserById(saveS3UrlResponseDto.userId);
+    if (!existingUser) {
+      throw new BadRequestException(Err.USER.NOT_FOUND);
+    }
+    try {
+      await this.mediaRepository.save({
+        videoUrl: saveS3UrlResponseDto.videoUrl,
+        captionUrl: saveS3UrlResponseDto.captionUrl,
+        textUrl: saveS3UrlResponseDto.textUrl,
+        thumbnailUrl: saveS3UrlResponseDto.thumbnailUrl,
+        existingUser,
+      });
+      return 'url 저장이 완료되었습니다.';
+    } catch (error) {
+      throw new InternalServerErrorException(Err.SERVER.UNEXPECTED_ERROR);
+    }
   }
 }

@@ -59,4 +59,10 @@ export const Err = {
       message: '메일 전송 중 에러가 발생하였습니다.',
     },
   },
+  MEDIA: {
+    NO_PERMISSION: {
+      code: 403,
+      message: '해당 요청의 권한이 없습니다',
+    },
+  },
 } as const;
