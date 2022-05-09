@@ -18,10 +18,12 @@ import {HttpExceptionFilter} from './common/exceptions/httpException.filter';
 import {TransformInterceptor} from './common/interceptors/transform.interceptor';
 import s3Confilg from './common/config/s3.confilg';
 import s3BucketConfig from './common/config/s3-bucket.config';
+import lambdaConfig from './common/config/lambda.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
+      envFilePath: process.env.NODE_ENV == 'dev' ? '.env.dev' : '.env.test',
       load: [
         databaseConfig,
         mailConfig,
@@ -30,6 +32,7 @@ import s3BucketConfig from './common/config/s3-bucket.config';
         sentryConfig,
         s3Confilg,
         s3BucketConfig,
+        lambdaConfig,
       ],
     }),
     TypeOrmModule.forRootAsync({

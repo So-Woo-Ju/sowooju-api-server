@@ -4,11 +4,11 @@ import {AuthService} from './auth.service';
 import {SendEmailDto} from './dto/send-email.dto';
 import {VerifyCodeDto} from './dto/verify-code.dto';
 import {docs} from './auth.docs';
-import {LocalAuthGuard} from './guard/local-auth.guard';
+import {LocalAuthGuard} from '../common/guard/local-auth.guard';
 import {SignUpDto} from './dto/signup.dto';
 import {AuthUser} from 'src/common/decorators/user.decorator';
 import {LocalUser, JwtUser} from 'src/common/types';
-import {JwtRefreshGuard} from './guard/jwt-refresh.guard';
+import {JwtRefreshGuard} from '../common/guard/jwt-refresh.guard';
 import {KakaoLoginDto} from './dto/kakao-login.dto';
 import {GoogleLoginDto} from './dto/google-login.dto';
 
