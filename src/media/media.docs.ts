@@ -49,7 +49,7 @@ export const docs: SwaggerMethodDoc<MediaController> = {
       }),
     );
   },
-  saveS3MediaUrl(summary: string) {
+  saveMediaS3Url(summary: string) {
     return applyDecorators(ApiExcludeEndpoint());
   },
 };

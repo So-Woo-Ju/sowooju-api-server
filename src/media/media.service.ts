@@ -72,7 +72,7 @@ export class MediaService {
     return {medias: await this.mediaRepository.find({user: existingUser})};
   }
 
-  async saveS3MediaUrl(saveS3UrlResponseDto: SaveS3UrlResponseDto): Promise<string> {
+  async saveMediaS3Url(saveS3UrlResponseDto: SaveS3UrlResponseDto): Promise<string> {
     const existingUser = await this.userService.findUserById(saveS3UrlResponseDto.userId);
     if (!existingUser) {
       throw new BadRequestException(Err.USER.NOT_FOUND);
