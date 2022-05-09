@@ -5,7 +5,7 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 import {AuthGuard} from '@nestjs/passport';
-import {Err} from './../../common/error';
+import {Err} from '../error';
 
 @Injectable()
 export class JwtRefreshGuard extends AuthGuard('jwt-refresh') {
