@@ -6,12 +6,19 @@ import {JwtUser} from 'src/common/types';
 import {docs} from './media.docs';
 import {ApiExcludeEndpoint, ApiTags} from '@nestjs/swagger';
 import {LambdaGuard} from './../common/guard/lambda.guard';
+import {GetVideoResultDto} from './dto/get-video-result.dto';
 import {SaveS3UrlResponseDto} from './dto/save-s3-url.dto';
 
 @Controller('media')
 @ApiTags('media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
+
+  @Post('result')
+  @docs.getVideoResult('사용자 업로드 비디오 Url')
+  getVideoResult(@Body() getVideoResultDto: GetVideoResultDto) {
+    return this.mediaService.getVideoResult(getVideoResultDto);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get('video/presigned-url')
