@@ -1,4 +1,4 @@
-import {Column, DeleteDateColumn, Entity, ManyToOne} from 'typeorm';
+import {Column, DeleteDateColumn, Entity, Index, ManyToOne} from 'typeorm';
 import {ApiProperty} from '@nestjs/swagger';
 import {User} from './../../user/entities/user.entity';
 import {BaseEntity} from './../../common/entity/base-entity.entity';
@@ -27,6 +27,7 @@ export class Media extends BaseEntity {
   @ApiProperty({description: '자막의 언어', example: 'KOR'})
   videoLanguage: VideoLanguage;
 
+  @Index()
   @Column({nullable: true})
   @ApiProperty({
     description: '영상의 URL',
