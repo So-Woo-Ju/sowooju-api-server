@@ -14,10 +14,11 @@ import {SaveS3UrlResponseDto} from './dto/save-s3-url.dto';
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post('result')
-  @docs.getVideoResult('사용자 업로드 비디오 Url')
-  getVideoResult(@Body() getVideoResultDto: GetVideoResultDto) {
-    return this.mediaService.getVideoResult(getVideoResultDto);
+  @docs.getVideoResult('사용자 업로드 비디오 결과 반환')
+  getVideoResult(@AuthUser() user: JwtUser, @Body() getVideoResultDto: GetVideoResultDto) {
+    return this.mediaService.getVideoResult(user.id, getVideoResultDto);
   }
 
   @UseGuards(JwtAuthGuard)
