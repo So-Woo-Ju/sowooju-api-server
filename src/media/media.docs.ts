@@ -18,7 +18,7 @@ export const docs: SwaggerMethodDoc<MediaController> = {
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: '사용자가 업로드한 영상의 자막 결과를 반환합니다.',
+        description: '사용자가 업로드한 영상의 자막 결과를 반환하고 미디어 정보를 저장합니다.',
       }),
       ApiOkResponse({
         type: GetVideoResultResponseBodyDto,
