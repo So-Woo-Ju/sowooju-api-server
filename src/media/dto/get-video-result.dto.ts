@@ -3,9 +3,6 @@ import {BaseResponseDto} from 'src/common/dto/base-response.dto';
 import {VideoLanguage, VideoType} from '../entities/media.entity';
 
 export class GetVideoResultDto {
-  @ApiProperty({example: 1})
-  userId: number;
-
   @ApiProperty({example: '비디오'})
   videoName: string;
 
@@ -20,6 +17,9 @@ export class GetVideoResultDto {
 }
 
 export class GetVideoResultResponseDto {
+  @ApiProperty({example: 'https://bucket-name.s3-accelerate.amazonaws.com...'})
+  videoUrl: string;
+
   @ApiProperty({example: 'https://bucket-name.s3-accelerate.amazonaws.com...'})
   captionUrl: string;
 

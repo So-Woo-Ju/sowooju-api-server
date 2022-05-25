@@ -21,8 +21,11 @@ export class MediaService {
     private readonly userService: UserService,
   ) {}
 
-  async getVideoResult(getVideoResultDto: GetVideoResultDto): Promise<GetVideoResultResponseDto> {
-    const existingUser = await this.userService.findUserById(getVideoResultDto.userId);
+  async getVideoResult(
+    userId: number,
+    getVideoResultDto: GetVideoResultDto,
+  ): Promise<GetVideoResultResponseDto> {
+    const existingUser = await this.userService.findUserById(userId);
     if (existingUser == null) {
       throw new BadRequestException(Err.USER.NOT_FOUND);
     }
@@ -38,9 +41,10 @@ export class MediaService {
       mediaInput.videoLanguage = getVideoResultDto.videoLanguage;
       await this.mediaRepository.save(mediaInput);
 
+      const videoUrl = mediaInput.videoUrl;
       const captionUrl = mediaInput.captionUrl;
       const textUrl = mediaInput.textUrl;
-      return {captionUrl, textUrl};
+      return {videoUrl, captionUrl, textUrl};
     } catch (error) {
       throw new InternalServerErrorException(Err.SERVER.UNEXPECTED_ERROR);
     }
