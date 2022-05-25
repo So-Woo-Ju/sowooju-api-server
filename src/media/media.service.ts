@@ -6,10 +6,11 @@ import {Repository} from 'typeorm';
 import {UserService} from './../user/user.service';
 import {Err} from './../common/error';
 import format from 'date-fns/format';
-import {S3_ACL, S3_PRESIGNED_URL_EXPIRES, VIDEO_FILE_TYPE} from './../constants';
+import {AWS_VIDEO_S3, S3_ACL, S3_PRESIGNED_URL_EXPIRES, VIDEO_FILE_TYPE} from './../constants';
 import {GetVideoPresignedUrlResponseDto} from './dto/get-video-presigned-url.dto';
 import {getMyMediasResponseDto} from './dto/get-my-medias.dto';
 import {SaveS3UrlResponseDto} from './dto/save-s3-url.dto';
+import {GetVideoResultDto, GetVideoResultResponseDto} from './dto/get-video-result.dto';
 
 @Injectable()
 export class MediaService {
@@ -19,6 +20,31 @@ export class MediaService {
     private readonly configService: ConfigService,
     private readonly userService: UserService,
   ) {}
+
+  async getVideoResult(getVideoResultDto: GetVideoResultDto): Promise<GetVideoResultResponseDto> {
+    const existingUser = await this.userService.findUserById(getVideoResultDto.userId);
+    if (existingUser == null) {
+      throw new BadRequestException(Err.USER.NOT_FOUND);
+    }
+    try {
+      const savedUrl = AWS_VIDEO_S3 + getVideoResultDto.fileName + '.' + VIDEO_FILE_TYPE;
+      let mediaInput = await this.mediaRepository.findOne({videoUrl: savedUrl});
+      while (!mediaInput) {
+        await new Promise(f => setTimeout(f, 1000));
+        mediaInput = await this.mediaRepository.findOne({videoUrl: savedUrl});
+      }
+      mediaInput.videoName = getVideoResultDto.videoName;
+      mediaInput.videoType = getVideoResultDto.videoType;
+      mediaInput.videoLanguage = getVideoResultDto.videoLanguage;
+      await this.mediaRepository.save(mediaInput);
+
+      const captionUrl = mediaInput.captionUrl;
+      const textUrl = mediaInput.textUrl;
+      return {captionUrl, textUrl};
+    } catch (error) {
+      throw new InternalServerErrorException(Err.SERVER.UNEXPECTED_ERROR);
+    }
+  }
 
   async getPresignedUrl(fileType: string, bucketName: string, fileName: string): Promise<string> {
     const s3 = this.configService.get('s3');
