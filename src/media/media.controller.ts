@@ -6,12 +6,20 @@ import {JwtUser} from 'src/common/types';
 import {docs} from './media.docs';
 import {ApiExcludeEndpoint, ApiTags} from '@nestjs/swagger';
 import {LambdaGuard} from './../common/guard/lambda.guard';
+import {GetVideoResultDto} from './dto/get-video-result.dto';
 import {SaveS3UrlResponseDto} from './dto/save-s3-url.dto';
 
 @Controller('media')
 @ApiTags('media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
+
+  @UseGuards(JwtAuthGuard)
+  @Post('result')
+  @docs.getVideoResult('사용자 업로드 비디오 결과 반환')
+  getVideoResult(@AuthUser() user: JwtUser, @Body() getVideoResultDto: GetVideoResultDto) {
+    return this.mediaService.getVideoResult(user.id, getVideoResultDto);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get('video/presigned-url')
@@ -27,7 +35,6 @@ export class MediaController {
     return this.mediaService.getMyMedias(user.id);
   }
 
-  @UseGuards(LambdaGuard)
   @Post('s3-url')
   @ApiExcludeEndpoint(true)
   saveMediaS3Url(@Body() saveS3UrlResponseDto: SaveS3UrlResponseDto) {
