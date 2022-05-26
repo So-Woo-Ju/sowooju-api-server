@@ -9,15 +9,31 @@ import {
 import {SwaggerMethodDoc} from 'src/common/types';
 import {getMyMediasResponseBodyDto} from './dto/get-my-medias.dto';
 import {GetVideoPresignedUrlResponseBodyDto} from './dto/get-video-presigned-url.dto';
+import {GetVideoResultResponseBodyDto} from './dto/get-video-result.dto';
 import {MediaController} from './media.controller';
 
 export const docs: SwaggerMethodDoc<MediaController> = {
+  getVideoResult(summary: string) {
+    return applyDecorators(
+      ApiBearerAuth(),
+      ApiOperation({
+        summary,
+        description:
+          '사용자 고유 비디오 정보로 사용자가 업로드한 영상의 자막 결과를 반환하고 미디어 정보를 저장합니다.',
+      }),
+      ApiOkResponse({
+        type: GetVideoResultResponseBodyDto,
+      }),
+      ApiResponse({status: 400, description: '존재하지 않는 사용자입니다.'}),
+      ApiResponse({status: 500, description: '유효하지 않은 정보입니다.'}),
+    );
+  },
   getVideoPresignedUrl(summary: string) {
     return applyDecorators(
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: 'Presigned URL 발급합니다.',
+        description: 'Presigned URL과 사용자 고유 비디오 정보를 발급합니다.',
       }),
       ApiOkResponse({
         type: GetVideoPresignedUrlResponseBodyDto,
