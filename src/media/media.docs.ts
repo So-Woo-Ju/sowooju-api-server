@@ -18,7 +18,8 @@ export const docs: SwaggerMethodDoc<MediaController> = {
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: '사용자가 업로드한 영상의 자막 결과를 반환하고 미디어 정보를 저장합니다.',
+        description:
+          '사용자 고유 비디오 정보로 사용자가 업로드한 영상의 자막 결과를 반환하고 미디어 정보를 저장합니다.',
       }),
       ApiOkResponse({
         type: GetVideoResultResponseBodyDto,
@@ -32,7 +33,7 @@ export const docs: SwaggerMethodDoc<MediaController> = {
       ApiBearerAuth(),
       ApiOperation({
         summary,
-        description: 'Presigned URL 발급합니다.',
+        description: 'Presigned URL과 사용자 고유 비디오 정보를 발급합니다.',
       }),
       ApiOkResponse({
         type: GetVideoPresignedUrlResponseBodyDto,
