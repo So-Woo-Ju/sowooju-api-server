@@ -35,7 +35,6 @@ export class MediaController {
     return this.mediaService.getMyMedias(user.id);
   }
 
-  @UseGuards(LambdaGuard)
   @Post('s3-url')
   @ApiExcludeEndpoint(true)
   saveMediaS3Url(@Body() saveS3UrlResponseDto: SaveS3UrlResponseDto) {
