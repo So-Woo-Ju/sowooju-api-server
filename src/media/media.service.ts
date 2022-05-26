@@ -39,7 +39,7 @@ export class MediaService {
       mediaInput.videoName = getVideoResultDto.videoName;
       mediaInput.videoType = getVideoResultDto.videoType;
       mediaInput.videoLanguage = getVideoResultDto.videoLanguage;
-      await this.mediaRepository.save(mediaInput);
+      await this.mediaRepository.update({videoUrl: savedUrl}, mediaInput);
 
       const videoUrl = mediaInput.videoUrl;
       const captionUrl = mediaInput.captionUrl;
