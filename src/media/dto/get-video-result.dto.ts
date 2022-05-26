@@ -12,7 +12,7 @@ export class GetVideoResultDto {
   @ApiProperty({example: 'KOR'})
   videoLanguage: VideoLanguage;
 
-  @ApiProperty({example: 'Saved File Name'})
+  @ApiProperty({example: '1-20210101.mp4'})
   fileName: string;
 }
 

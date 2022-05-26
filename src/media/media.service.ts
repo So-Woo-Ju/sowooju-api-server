@@ -30,7 +30,7 @@ export class MediaService {
       throw new BadRequestException(Err.USER.NOT_FOUND);
     }
     try {
-      const savedUrl = AWS_VIDEO_S3 + getVideoResultDto.fileName + '.' + VIDEO_FILE_TYPE;
+      const savedUrl = AWS_VIDEO_S3 + getVideoResultDto.fileName;
       let mediaInput = await this.mediaRepository.findOne({videoUrl: savedUrl});
       while (!mediaInput) {
         await new Promise(f => setTimeout(f, 1000));
@@ -79,7 +79,10 @@ export class MediaService {
     const date = format(new Date(), 'yyyyMMddmmss');
     const fileName = `${userId}-${date}.${fileType}`;
 
-    return {videoS3Url: await this.getPresignedUrl(fileType, videoS3BucketName, fileName)};
+    return {
+      videoS3Url: await this.getPresignedUrl(fileType, videoS3BucketName, fileName),
+      fileName,
+    };
   }
 
   async getThumbnailPresignedUrl(userId: number) {
