@@ -2,7 +2,7 @@ import {ApiProperty} from '@nestjs/swagger';
 
 export class SaveS3UrlResponseDto {
   @ApiProperty({example: '1'})
-  userId: number;
+  userId: string;
 
   @ApiProperty({example: 'https://bucket-name.s3-accelerate.amazonaws.com...'})
   videoUrl: string;
