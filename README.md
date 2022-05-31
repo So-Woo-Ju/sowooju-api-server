@@ -1,4 +1,4 @@
-# NoonSori
+# Backend (API)
 
 ## 프로젝트 개요
 
@@ -16,9 +16,9 @@
 
 ## 프로젝트 기술 스택
 
-|                        Backend (API)                         |                         Backend (AI)                         |
-| :----------------------------------------------------------: | :----------------------------------------------------------: | 
-| ![Nestjs](https://img.shields.io/badge/nestjs-white?style=flat-square&logo=nestjs&color=E0234E) ![GoogleCloud](https://img.shields.io/badge/GoogleCloud-4285F4?style=flat-square&logo=GoogleCloud&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazon-aws&logoColor=white)  ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white)  ![MySQL](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white)![Sentry](https://img.shields.io/badge/Sentry-362D59?style=flat-square&logo=Sentry&logoColor=white) | ![AWS Lambda](https://img.shields.io/badge/Lambda-white?style=flat-square&logo=amazon-aws&color=FF9900)![AWS Lambda](https://img.shields.io/badge/TensorFlow-white?style=flat-square&logo=tensorflow&color=FF6F00&logoColor=white) |
+|                        Backend (API)                         |
+| :----------------------------------------------------------: |
+| ![Nestjs](https://img.shields.io/badge/nestjs-white?style=flat-square&logo=nestjs&color=E0234E) ![GoogleCloud](https://img.shields.io/badge/GoogleCloud-4285F4?style=flat-square&logo=GoogleCloud&logoColor=white) ![AWS](https://img.shields.io/badge/AWS-232F3E?style=flat&logo=amazon-aws&logoColor=white)  ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=Docker&logoColor=white) ![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white)  ![MySQL](https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white) ![Sentry](https://img.shields.io/badge/Sentry-362D59?style=flat-square&logo=Sentry&logoColor=white) |
 
 
 # Backend (API)
